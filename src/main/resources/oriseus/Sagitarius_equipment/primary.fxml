@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="mainPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="664.0" prefWidth="1154.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="oriseus.Sagitarius_equipment.controllers.PrimaryController">
+   <top>
+      <MenuBar prefHeight="1.0" prefWidth="581.0" BorderPane.alignment="CENTER">
+        <menus>
+            <Menu mnemonicParsing="false" text="База данных">
+              <items>
+                <MenuItem fx:id="saveDataBaseMenuItem" mnemonicParsing="false" onAction="#saveDataBase" text="Сохранить базу данных" />
+                  <MenuItem fx:id="loadDataBaseMenuItem" mnemonicParsing="false" onAction="#loadDataBase" text="Загрузить базу данных" />
+              </items>
+            </Menu>
+          <Menu fx:id="frameTopMenu" mnemonicParsing="false" text="Сетки">
+            <items>
+              <MenuItem fx:id="addNewFrameMenuItem" mnemonicParsing="false" onAction="#addNewFrame" text="Добавить " />
+                  <MenuItem fx:id="editFrameMenuItem" mnemonicParsing="false" onAction="#editFrame" text="Изменить" />
+                  <MenuItem fx:id="deleteFrameMenuItem" mnemonicParsing="false" onAction="#deleteFrame" text="Удалить" />
+            </items>
+          </Menu>
+          <Menu fx:id="managerTopMenu" mnemonicParsing="false" text="Менеджеры">
+            <items>
+              <MenuItem fx:id="addNewManagerMenuItem" mnemonicParsing="false" onAction="#addNewManager" text="Добавить" />
+                  <MenuItem fx:id="editManagerMenuItem" mnemonicParsing="false" onAction="#editManager" text="Изменить" />
+                  <MenuItem fx:id="deleteManagerMenuItem" mnemonicParsing="false" onAction="#deleteManager" text="Удалить" />
+            </items>
+          </Menu>
+          <Menu fx:id="companyTopMenu" mnemonicParsing="false" text="Компании">
+            <items>
+              <MenuItem fx:id="addNewCompanyMenuItem" mnemonicParsing="false" onAction="#addNewCompany" text="Добавить" />
+                  <MenuItem fx:id="editCompanyMenuItem" mnemonicParsing="false" onAction="#editCompany" text="Редактировать" />
+            </items>
+          </Menu>
+            <Menu fx:id="settingsTopMenu" mnemonicParsing="false" text="Настройки">
+              <items>
+                <MenuItem fx:id="openSettingsMenuItem" mnemonicParsing="false" onAction="#openSettings" text="Открыть настройки" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Пользователь">
+              <items>
+                <MenuItem fx:id="setUserToSuperUserMenuItem" mnemonicParsing="false" onAction="#setUserToSuperUser" text="Войти" />
+                  <MenuItem fx:id="setSuperUserToUserMenuItem" mnemonicParsing="false" onAction="#setSuperUserToUser" text="Выйти" />
+              </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <center>
+      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
+         <children>
+            <VBox>
+               <children>
+                  <ToolBar fx:id="optionViewToolBar">
+                     <items>
+                        <Label text="Показывать по" />
+                        <ChoiceBox fx:id="displayOptionChoiceBox" prefWidth="150.0" />
+                        <ChoiceBox fx:id="displaysChoiceBox" prefWidth="150.0" />
+                        <Button fx:id="clearDispalysChoiceBoxesButton" mnemonicParsing="false" onAction="#clearOptionsChoiceBoxes" text="Очистить" />
+                     </items>
+                  </ToolBar>
+                  <ToolBar fx:id="searchToolBar">
+                     <items>
+                        <Label text="Поиск по" />
+                        <ChoiceBox fx:id="searchOptionChoiceBox" prefWidth="150.0" />
+                        <TextField fx:id="searchTextField" />
+                        <Button fx:id="clearButton" mnemonicParsing="false" onAction="#searchFrameByOption" text="Очистить" />
+                     </items>
+                  </ToolBar>
+               </children>
+            </VBox>
+            <Button fx:id="archiveButton" mnemonicParsing="false" onAction="#toArchive" text="Перейти в архив" />
+            <TabPane fx:id="frameTabPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="668.0" prefWidth="1154.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="Сетки">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0">
+                           <children>
+                              <TableView fx:id="frameTableView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <columns>
+                                  <TableColumn fx:id="nameTableColumn" prefWidth="95.0" text="Название" />
+                                  <TableColumn fx:id="managerTableColumn" prefWidth="128.0" text="Менеджер" />
+                                    <TableColumn fx:id="companyTableColumn" prefWidth="111.0" text="Компания" />
+                                    <TableColumn fx:id="frameCreateDateTableColumn" prefWidth="115.0" text="Дата создания" />
+                                    <TableColumn fx:id="numberOfLayoutTableColumn" prefWidth="136.0" text="Номер оригинал макета" />
+                                    <TableColumn fx:id="typeOfFrameTableColumn" prefWidth="75.0" text="Тип сетки" />
+                                    <TableColumn fx:id="dateOfLastWorkTableColumn" prefWidth="75.0" text="Дата последнего тиража" />
+                                    <TableColumn fx:id="commentTableColumn" prefWidth="75.0" text="Коментарий" />
+                                    <TableColumn fx:id="statusOfFrameTableColumn" prefWidth="75.0" text="Статус" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab text="Untitled Tab 2">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  </content>
+                </Tab>
+              </tabs>
+            </TabPane>
+         </children>
+      </VBox>
+   </center>
+   <right>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fx:id="imageView" fitHeight="267.0" fitWidth="267.0" pickOnBounds="true" preserveRatio="true" />
+            <HBox alignment="CENTER">
+               <children>
+                  <Button fx:id="leftImageButton" mnemonicParsing="false" onAction="#leftImageButtonPressed" prefHeight="25.0" prefWidth="60.0" text="&lt;&lt;" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="rightImageButton" mnemonicParsing="false" onAction="#rightImageButtonPressed" prefHeight="25.0" prefWidth="60.0" text="&gt;&gt;" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </right>
+</BorderPane>

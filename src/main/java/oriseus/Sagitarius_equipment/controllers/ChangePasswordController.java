@@ -1,0 +1,59 @@
+package oriseus.Sagitarius_equipment.controllers;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import oriseus.Sagitarius_equipment.model.DataBase;
+import oriseus.Sagitarius_equipment.ports.SettingsPage;
+
+public class ChangePasswordController {
+
+	@FXML
+	private TextField newPasswordTextField;
+	@FXML
+	private TextField confirmNewPasswordTextField;
+	
+	@FXML
+	private Label infoLabel;
+	
+	@FXML
+	private Button okButton;
+	@FXML
+	private Button cancelButton;
+	
+	@FXML
+	private void initialize() {
+		infoLabel.setVisible(false);
+	}
+	
+	@FXML
+	private void okButtonPressed() {
+		if (!newPasswordTextField.getText().equals(confirmNewPasswordTextField.getText())) {
+			infoLabel.setVisible(true);
+			infoLabel.setText("Пароли не совпадают!");
+			return;
+		}
+		
+		if (newPasswordTextField.getText().isBlank() || confirmNewPasswordTextField.getText().isBlank()) {
+			infoLabel.setVisible(true);
+			infoLabel.setText("Вы не ввели пароль!");
+			return;
+		}
+		
+		if (newPasswordTextField.getText().equals(confirmNewPasswordTextField.getText())) {
+			DataBase.getInstance().getUser().setPassword(newPasswordTextField.getText());
+			infoLabel.setVisible(true);
+			infoLabel.setText("Пароль успешно изменен!");			
+		}
+	}
+	
+	@FXML
+	private void cancelButtonPressed() {
+		
+	}
+	
+	public void setData(SettingsPage page) {
+		
+	}
+}

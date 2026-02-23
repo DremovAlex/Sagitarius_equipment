@@ -1,0 +1,55 @@
+/* === Base colors === */
+.root {
+    -fx-base: #1e1e2e;
+	-fx-text-base-color: #cdd6f4;
+    -fx-background: #1e1e2e;
+    -fx-control-inner-background: #181825;
+    -fx-text-fill: #cdd6f4;
+
+    -fx-accent: #89b4fa;
+    -fx-focus-color: #89b4fa;
+    -fx-faint-focus-color: transparent;
+
+    -fx-font-family: "Segoe UI";
+}
+
+/* === Buttons === */
+.button {
+    -fx-background-radius: 6;
+    -fx-padding: 6 14;
+}
+
+/* === Inputs === */
+.text-field,
+.text-area,
+.combo-box {
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+}
+
+.text,
+.label {
+    -fx-text-fill: #bac2de;
+    -fx-fill: #bac2de;
+}
+
+/* === ToolBar === */
+.tool-bar {
+    -fx-background-color: #1e1e2e;
+}
+
+.tool-bar .label {
+    -fx-text-fill: #cdd6f4;
+}
+
+.tool-bar .text {
+    -fx-fill: #cdd6f4;
+}
+
+.tool-bar .button {
+    -fx-text-fill: #cdd6f4;
+}
+
+.tool-bar .label {
+    -fx-text-fill: red;
+}
