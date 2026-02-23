@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.Iterator;
+import java.util.Optional;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
@@ -20,12 +21,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -40,17 +44,22 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import oriseus.Sagitarius_equipment.model.DataBase;
 import oriseus.Sagitarius_equipment.model.Frame;
+import oriseus.Sagitarius_equipment.model.LogEntity;
 import oriseus.Sagitarius_equipment.model.Manager;
 import oriseus.Sagitarius_equipment.model.StatusOfFrame;
 import oriseus.Sagitarius_equipment.model.TypeOfFrame;
 import oriseus.Sagitarius_equipment.ports.FilterValue;
+import oriseus.Sagitarius_equipment.ports.LogLevel;
 import oriseus.Sagitarius_equipment.utilities.Converters;
 import oriseus.Sagitarius_equipment.utilities.FileHundler;
+import oriseus.Sagitarius_equipment.utilities.LogHundler;
 import oriseus.Sagitarius_equipment.utilities.ThemeHundler;
 import oriseus.Sagitarius_equipment.utilities.WindowManager;
 import oriseus.Sagitarius_equipment.model.Company;
@@ -164,6 +173,8 @@ public class PrimaryController {
 	private TableColumn<Frame, String> commentTableColumn;
 	@FXML
 	private TableColumn<Frame, String> statusOfFrameTableColumn;
+	@FXML
+	private TableColumn<Frame, LocalDate> dateOfSendToArchive;
 	
 	@FXML
 	private Button archiveButton;
@@ -173,6 +184,11 @@ public class PrimaryController {
 	
 	@FXML
 	private MenuItem editMenuItem;
+	
+	@FXML
+	private ScrollPane scrollPane;
+	@FXML
+	private TextFlow textFlow;
 	
 	@FXML
 	private void initialize() {
@@ -207,11 +223,14 @@ public class PrimaryController {
 		dateOfLastWorkTableColumn.setCellValueFactory(c -> c.getValue().dateOfLastWorkProperty());
 		commentTableColumn.setCellValueFactory(c -> c.getValue().commentProperty());
 		statusOfFrameTableColumn.setCellValueFactory(c -> c.getValue().nameStatusOfFrameProperty());
+		dateOfSendToArchive.setCellValueFactory(c -> c.getValue().getDateOfSendToArchive());
 		
 		//указываем таблице что отображать
 		frameTableView.setItems((ObservableList<Frame>) DataBase.getInstance().getFrameListByIsActual());
 		//добавляем слушателя таблице
-		initTableSelectionListener();		
+		initTableSelectionListener();
+		//Устанавлиываем колонку даты списания невидимой
+		dateOfSendToArchive.setVisible(false);
 
 		//проверяем что юзер суперюзер и блокируем управление если это не так
 		if (DataBase.getInstance().getUser().isSuperUser() == false) {
@@ -228,6 +247,9 @@ public class PrimaryController {
 //		new ThemeHundler().setCatppucinTheme(mainPane);
 
 		setContextMenuToImageView();
+		
+		scrollPane.layout();
+		scrollPane.setVvalue(1.0);
 	}
 	
 	@FXML
@@ -236,10 +258,12 @@ public class PrimaryController {
 			archiveButton.setText("В актуальные");
 			DataBase.getInstance().setActual(false);
 			frameTableView.setItems((ObservableList<Frame>) DataBase.getInstance().getFrameListByIsActual());
+			dateOfSendToArchive.setVisible(true);
 		} else {
 			archiveButton.setText("В архив");
 			DataBase.getInstance().setActual(true);
 			frameTableView.setItems((ObservableList<Frame>) DataBase.getInstance().getFrameListByIsActual());
+			dateOfSendToArchive.setVisible(false);
 		}
 	}
 	
@@ -294,26 +318,44 @@ public class PrimaryController {
 		}		
 	}
 	
+	//Сохраняет базу данных, пишет об этом в лог
 	@FXML
 	private void saveDataBase() {
-		System.out.println("save database");
-		try {
-			DataBase.getInstance().saveDataBase();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+		Optional<ButtonType> result = WindowManager.showConfirmationWindow("Вы уверенны что хотите сохранить базу данных?", "");
+
+		if (result.isPresent() && result.get() == ButtonType.OK) {
+			try {
+				DataBase.getInstance().saveDataBase();
+				logging(LogLevel.INFO, "База данных сохранена");
+			} catch (IOException e) {
+				textFlow.getChildren().add(new Text(e.getMessage()));
+				logging(LogLevel.WARNING, e.getMessage());
+//				e.printStackTrace();
+			}
+		} else {
+			logging(LogLevel.INFO, "Отмена сохранения базы данных");
 		}
 	}
 	
+	//Загружает базу данных, пишет в лог
 	@FXML
 	private void loadDataBase() {
-		System.out.println("load database");
-		try {
-			DataBase.getInstance().loadDataBase();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		
+		Optional<ButtonType> result = WindowManager.showConfirmationWindow("Вы уверенны что хотите загрузить базу данных?", "");
+
+		if (result.isPresent() && result.get() == ButtonType.OK) {
+			try {
+				DataBase.getInstance().loadDataBase();
+				logging(LogLevel.INFO, "База данных загружена");
+			} catch (IOException e) {
+				logging(LogLevel.WARNING, e.getMessage());
+//				e.printStackTrace();
+			}
+		} else {
+			logging(LogLevel.INFO, "Отмена загрузки базы данных");
 		}
+
 	}
 	
 	@FXML
@@ -566,6 +608,8 @@ public class PrimaryController {
 		managerTopMenu.setDisable(false);
 		companyTopMenu.setDisable(false);
 		settingsTopMenu.setDisable(false);	
+		
+		
 	}
 
 	//Устанавливает первое изображение в списке сетки, если изображения нет, устанавливает пустой экран
@@ -578,7 +622,8 @@ public class PrimaryController {
 			
 			indexOfImage = 0;
 		} else {
-			Image image = new Image(Paths.get("D:\\build\\Sagitarius-equipment-0.0.1\\images\\no-image.png").toUri().toString(), 0, 0, true, true, true);
+			System.out.println(FileHundler.getPathToImageFolder() + "ImageNotFound.png");
+			Image image = new Image(Paths.get(FileHundler.getPathToImageFolder() + File.separator + "ImageNotFound.png").toUri().toString(), 0, 0, true, true, true);
 			imageView.setImage(image);
 		}
         
@@ -632,5 +677,12 @@ public class PrimaryController {
 		    }
 		});
 	
+	}
+	
+	//Добавляет данные в логи и textFlow
+	private void logging(LogLevel logLevel, String text) {	
+		LogEntity logEntity = new LogEntity(logLevel, text);
+		LogHundler.writeLogingMessage(logEntity);
+		textFlow.getChildren().add(new Text(logEntity.getFullLogMessage() + "\n"));
 	}
 }

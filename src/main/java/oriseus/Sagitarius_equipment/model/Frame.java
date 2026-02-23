@@ -25,8 +25,9 @@ public class Frame implements FilterValue{
 	private final StringProperty numberOfLayout = new SimpleStringProperty();
 	private final ObjectProperty<TypeOfFrame> typeOfFrame = new SimpleObjectProperty<>();
 	private final ObjectProperty<LocalDate> dateOfLastWork = new SimpleObjectProperty<>();
-	private final StringProperty comment = new SimpleStringProperty();;
+	private final StringProperty comment = new SimpleStringProperty();
 	private final ObjectProperty<StatusOfFrame> statusOfFrame = new SimpleObjectProperty<>();
+	private final ObjectProperty<LocalDate> dateOfSendToArchive = new SimpleObjectProperty<>();
 	
 	private List<String> imageFrameList;
 	
@@ -115,6 +116,10 @@ public class Frame implements FilterValue{
 	public ObjectProperty<LocalDate> getDateOfCreationFrame() {
 		return dateOfCreationFrame;
 	}
+	
+	public ObjectProperty<LocalDate> getDateOfSendToArchive() {
+		return dateOfSendToArchive;
+	}
 
 	public Company getCompany() {
 		return company.get();
@@ -176,6 +181,10 @@ public class Frame implements FilterValue{
 		dateOfCreationFrame.set(localDate);
 	}
 
+	public void setDateOfSendToArchive(LocalDate localDate) {
+		dateOfSendToArchive.set(localDate);
+	}
+	
 	public List<String> getImageFrameList() {
 		return imageFrameList;
 	}

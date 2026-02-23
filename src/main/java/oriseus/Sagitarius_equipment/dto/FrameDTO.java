@@ -16,4 +16,5 @@ public class FrameDTO {
 	public String comment;
 	public Long statusOfFrameId;
 	public List<String> imageFrameList;
+	public LocalDate dateOfSendToArchive;
 }

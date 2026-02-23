@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.fasterxml.jackson.core.exc.StreamReadException;
@@ -292,11 +293,14 @@ public class DataBase {
 	}
 	
 	public void setFrameToArchive(Frame frame) {
+		frame.setDateOfSendToArchive(LocalDate.now());
+		System.out.println(frame.getDateOfSendToArchive());
 		archiveFrameList.add(frame);
 		frameList.remove(frame);
 	}
 	
 	public void setToActual(Frame frame) {
+		frame.setDateOfSendToArchive(null);
 		frameList.add(frame);
 		archiveFrameList.remove(frame);
 	}

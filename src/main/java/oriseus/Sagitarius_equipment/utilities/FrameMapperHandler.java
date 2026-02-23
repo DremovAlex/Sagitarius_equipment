@@ -25,6 +25,7 @@ public class FrameMapperHandler {
 		frameDTO.comment = frame.getComment();
 		frameDTO.statusOfFrameId = frame.getStatusOfFrame().getId();
 		frameDTO.imageFrameList = frame.getImageFrameList();
+		frameDTO.dateOfSendToArchive = frame.getDateOfSendToArchive().get();
 		
 		return frameDTO;
 	}
@@ -45,6 +46,7 @@ public class FrameMapperHandler {
 		frame.setDateOfLastWork(dto.dateOFLastWork);
 		frame.setComment(dto.comment);
 		frame.setImageFrameList(dto.imageFrameList);
+		frame.setDateOfSendToArchive(dto.dateOfSendToArchive);
 		
 		System.out.println(frame.getImageFrameList().size());
 	}
