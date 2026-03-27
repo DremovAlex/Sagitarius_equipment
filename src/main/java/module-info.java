@@ -7,6 +7,8 @@ module oriseus.Sagitarius_equipment {
 	requires com.fasterxml.jackson.dataformat.smile;
 	requires com.fasterxml.jackson.datatype.jsr310;
 	requires java.desktop;
+    requires pdfbox;
+    requires javafx.swing;
 
     opens oriseus.Sagitarius_equipment to javafx.fxml;
     opens oriseus.Sagitarius_equipment.controllers to javafx.fxml;

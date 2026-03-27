@@ -38,7 +38,7 @@ public class AddNewCompanyController {
 		managerChoiceBox.valueProperty().addListener((obs, oldManager, newManager) -> {manager = newManager;});	
 		managerChoiceBox.setConverter(Converters.simpleConverter(Manager::getName));
 		
-		new ThemeHundler().setCatppucinTheme(mainVBox);
+//		new ThemeHundler().setCatppucinTheme(mainVBox);
 	}
 	
 	@FXML

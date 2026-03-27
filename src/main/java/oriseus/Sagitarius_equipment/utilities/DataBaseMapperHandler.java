@@ -194,6 +194,7 @@ public class DataBaseMapperHandler {
 		    frame.setName(f.name);
 		    frame.setNumberOfLayout(f.numberOfLayouts);
 		    frame.setImageFrameList(f.imageFrameList);
+			frame.setPathToPdf(f.pathToPdf);
 		}
 	    
 		for (FrameDTO f : dBDto.archiveFrameList) {
@@ -234,6 +235,7 @@ public class DataBaseMapperHandler {
 		    archiveFrame.setName(f.name);
 		    archiveFrame.setNumberOfLayout(f.numberOfLayouts);
 		    archiveFrame.setImageFrameList(f.imageFrameList);
+			archiveFrame.setPathToPdf(f.pathToPdf);
 		}
 
 		return db;

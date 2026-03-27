@@ -17,4 +17,5 @@ public class FrameDTO {
 	public Long statusOfFrameId;
 	public List<String> imageFrameList;
 	public LocalDate dateOfSendToArchive;
+	public String pathToPdf;
 }

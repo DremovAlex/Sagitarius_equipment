@@ -32,6 +32,49 @@
 		    <version>2.20.0</version>
 		    <scope>compile</scope>
 		</dependency>
+    
+      <dependency>
+        <groupId>org.apache.pdfbox</groupId>
+        <artifactId>pdfbox</artifactId>
+        <version>2.0.16</version>
+      </dependency>
+    
+    
+      <dependency>
+        <groupId>no.tornado</groupId>
+        <artifactId>tornadofx-android-compat</artifactId>
+        <version>1.0.1</version>
+      </dependency>
+    
+      <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-swing</artifactId>
+        <version>25-ea+21</version>
+      </dependency>
+    
+      <dependency>
+        <groupId>no.tornado</groupId>
+        <artifactId>tornadofx-android-compat</artifactId>
+        <version>1.0.1</version>
+      </dependency>
+    
+      <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-swing</artifactId>
+        <version>25-ea+21</version>
+      </dependency>
+    
+      <dependency>
+        <groupId>org.glavo.hmcl</groupId>
+        <artifactId>hmcl-dev</artifactId>
+        <version>3.6.12.281</version>
+      </dependency>
+    
+      <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-swing</artifactId>
+        <version>25-ea+21</version>
+      </dependency>
     </dependencies>
     <build>
         <plugins>

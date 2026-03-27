@@ -1,12 +1,19 @@
 package oriseus.Sagitarius_equipment.controllers;
 
 import java.awt.Desktop;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.Optional;
+
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.rendering.PDFRenderer;
+
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
@@ -17,6 +24,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -91,6 +99,8 @@ public class PrimaryController {
 	@FXML
 	private TabPane frameTabPane;
 	
+	@FXML
+	private ImageView pdfImageView;
 	@FXML
 	private ImageView imageView;
 	@FXML
@@ -246,12 +256,14 @@ public class PrimaryController {
 		
 //		new ThemeHundler().setCatppucinTheme(mainPane);
 
+		setListenerToPdfImageView();
 		setContextMenuToImageView();
 		
 		scrollPane.layout();
 		scrollPane.setVvalue(1.0);
 	}
 	
+	//Переключает отображение актуальных сеток и архива
 	@FXML
 	private void toArchive() {
 		if (DataBase.getInstance().isActual()) {
@@ -281,6 +293,21 @@ public class PrimaryController {
 		displayOptionChoiceBox.getSelectionModel().select(0);
 	}
 	
+	private void addNewPdfToFrame(Frame frame) {
+		File pdfFile = FileHundler.chosePdfFile((Stage) pdfImageView.getScene().getWindow());
+		String pathToPdfFile = FileHundler.copyPdfFFileToDataBase(pdfFile);
+		frame.setPathToPdf(pathToPdfFile);
+		
+		setPdfFileToPreview(currentFrame);
+
+		logging(LogLevel.INFO, "Добавлен ПДФ файл");
+	}
+	//Удаляет макет с сетки
+	//Забивает стринг налом, потом слеать при иницализации пустую строку и проверять по ней
+	private void deletePdfToFrame(Frame frame) {
+		frame.setPathToPdf(null);
+	}
+
 	private void addNewImageToFrame(Frame frame) {
 		System.out.println("add new image");
 		File imageFile = FileHundler.chooseImage((Stage) imageView.getScene().getWindow());
@@ -290,12 +317,16 @@ public class PrimaryController {
 		frame.addImageToFrame(pathToImage);
 		
 		setDefaultImageToImageView(currentFrame);
+
+		logging(LogLevel.INFO, "Изображение добавлено");
 		
 	}
 	
 	private void deleteImageToFrame(Frame frame, int index) {
 		frame.deleteImageFromFrame(index);
 		setDefaultImageToImageView(currentFrame);
+
+		logging(LogLevel.INFO, "Изображение удалено");
 	}
 	
 	@FXML
@@ -363,6 +394,8 @@ public class PrimaryController {
 	    WindowManager.openModalWindow("/oriseus/Sagitarius_equipment/addNewFrame.fxml", 
 	    		"Добавление новой сетки", 
 	    		frameTableView.getScene().getWindow());
+				
+				logging(LogLevel.INFO, "Добавлена новая сетка");
 	}
 	
 	@FXML
@@ -376,6 +409,8 @@ public class PrimaryController {
 	private void deleteFrame() {
 		if (currentFrame == null) return;		
 		DataBase.getInstance().getFrameListByIsActual().remove(currentFrame);
+		
+		logging(LogLevel.INFO, "Удалена сетка");
 	}
 	
 	@FXML
@@ -383,6 +418,8 @@ public class PrimaryController {
 	    WindowManager.openModalWindow("/oriseus/Sagitarius_equipment/addNewManager.fxml", 
 	    		"Добавление нового менеджера", 
 	    		frameTableView.getScene().getWindow());
+
+				logging(LogLevel.INFO, "Добавлен менеджер");
 	}
 	
 	@FXML
@@ -402,6 +439,8 @@ public class PrimaryController {
 	    WindowManager.openModalWindow("/oriseus/Sagitarius_equipment/addNewCompany.fxml", 
 	    		"Добавление новой компании", 
 	    		frameTableView.getScene().getWindow());
+
+				logging(LogLevel.INFO, "Добавлена новая компания");
 	}
 	
 	@FXML
@@ -416,6 +455,8 @@ public class PrimaryController {
 	    WindowManager.openModalWindow("/oriseus/Sagitarius_equipment/settings.fxml", 
 	    		"Настройки", 
 	    		frameTableView.getScene().getWindow());
+
+				logging(LogLevel.INFO, "Открыты настройки");
 	}
 	
 
@@ -427,6 +468,8 @@ public class PrimaryController {
 	    
 	    if (DataBase.getInstance().getUser().isSuperUser()) {
 	    	setEnableEditing();
+
+			logging(LogLevel.INFO, "Добавлены првелегии суперпользователя");
 	    }
 	}
 	
@@ -434,8 +477,11 @@ public class PrimaryController {
 	private void setSuperUserToUser() {
 		DataBase.getInstance().getUser().setSuperUser(false);
 		setDisableEditing();
+
+		logging(LogLevel.INFO, "Убраны привелегии суперпользователя");
 	}
 	
+	//Добавляет слушателя на таблицу
 	private void initTableSelectionListener() {
 		frameTableView.getSelectionModel()
 		.selectedItemProperty()
@@ -448,6 +494,7 @@ public class PrimaryController {
                 currentStatusOfFrame = newFrame.getStatusOfFrame();
                 currentTypeOfFrame = newFrame.getTypeOfFrame();
                 
+				setPdfFileToPreview(currentFrame);
                 setDefaultImageToImageView(currentFrame);
             }
         });
@@ -528,6 +575,7 @@ public class PrimaryController {
 		});
 	}
 	
+	//подключает контекстное меню по правому щелчку мыши
 	private void initializeRightMouseClick() {
 		frameTableView.setRowFactory(tableView -> {
 		    TableRow<Frame> row = new TableRow<>();
@@ -537,7 +585,8 @@ public class PrimaryController {
 		    MenuItem addNewFrame = new MenuItem("Добавить новую сетку");
 		    MenuItem editFrame = new MenuItem("Редактировать сетку");
 		    MenuItem deleteFrame = new MenuItem("Удалить сетку");
-		    MenuItem addNewImage = new MenuItem("Добавить новое изображение");
+		    MenuItem addNewPdf = new MenuItem("Добавить оригинал макет");
+			MenuItem addNewImage = new MenuItem("Добавить новое изображение");
 		    
 		    Menu changeStatusMenu = new Menu("Сменить статус сетки");
 
@@ -548,12 +597,13 @@ public class PrimaryController {
 		        changeStatusMenu.getItems().add(item);
 		    }
 		    
-		    menu.getItems().addAll(addNewFrame, editFrame, deleteFrame, changeStatusMenu, addNewImage);
+		    menu.getItems().addAll(addNewFrame, editFrame, deleteFrame, changeStatusMenu,addNewPdf, addNewImage);
 
 		    addNewFrame.setOnAction(e -> addNewFrameByRightClick());
 		    editFrame.setOnAction(e -> editFrameByRightClick(row.getItem()));
 		    deleteFrame.setOnAction(e -> deleteFrameByRightClick(row.getItem()));
 		    
+			addNewPdf.setOnAction(e -> addNewPdfToFrame(row.getItem()));
 		    addNewImage.setOnAction(e -> addNewImageToFrame(row.getItem()));
 		    
 		    row.contextMenuProperty().bind(
@@ -603,13 +653,31 @@ public class PrimaryController {
 		settingsTopMenu.setDisable(true);
 	}
 	
+	//открывает возможность редактирования
 	private void setEnableEditing() {
 		frameTopMenu.setDisable(false);
 		managerTopMenu.setDisable(false);
 		companyTopMenu.setDisable(false);
 		settingsTopMenu.setDisable(false);	
-		
-		
+	}
+
+	//устанавливает превью из pdf файла, иначе показывает дефолтное изображение
+	private void setPdfFileToPreview(Frame frame) {
+		if (frame.getPathToPdf() != null) {
+			File pdfFile = new File(frame.getPathToPdf());
+
+			Image image;
+			try {
+				image = generatePreview(pdfFile);
+				pdfImageView.setImage(image); 
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			Image image = new Image(Paths.get(FileHundler.getPathToImageFolder() + File.separator + "ImageNotFound.png").toUri().toString(), 0, 0, true, true, true);
+			pdfImageView.setImage(image);
+		}
 	}
 
 	//Устанавливает первое изображение в списке сетки, если изображения нет, устанавливает пустой экран
@@ -635,9 +703,12 @@ public class PrimaryController {
 		imageView.setImage(image);
 	}
 	
+	//Открывает средствами ОС файл
 	private void openImageViewer(String path) {
 		try {
 			Desktop.getDesktop().open(new File(path));
+
+			logging(LogLevel.INFO, "Открыт файл");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -678,6 +749,40 @@ public class PrimaryController {
 		});
 	
 	}
+
+	//Добавляет слушателя к окну превью пдф
+	private void setListenerToPdfImageView() {
+		ContextMenu imageMenu = new ContextMenu();
+
+		MenuItem addItem  = new MenuItem("Добавить оригинал-макет");
+		MenuItem deleteItem = new MenuItem("Удалить оригинал-макет");
+
+		imageMenu.getItems().addAll(addItem, deleteItem);
+		
+		pdfImageView.setOnContextMenuRequested(e -> {
+		    if (pdfImageView.getImage() != null && DataBase.getInstance().getUser().isSuperUser()) {
+		        imageMenu.show(pdfImageView, e.getScreenX(), e.getScreenY());
+		    }
+		});
+
+		pdfImageView.setOnMouseClicked(e -> {
+		    if (e.getClickCount() == 2 && imageView.getImage() != null) {
+		        openImageViewer(currentFrame.getPathToPdf());
+		    }
+		});
+
+				addItem.setOnAction(e -> {
+		    if (imageView.getImage() != null) {
+		        addNewPdfToFrame(currentFrame);
+		    }
+		});
+		
+		deleteItem.setOnAction(e -> {
+		    if (imageView.getImage() != null) {
+		        deletePdfToFrame(currentFrame);
+		    }
+		});
+	}
 	
 	//Добавляет данные в логи и textFlow
 	private void logging(LogLevel logLevel, String text) {	
@@ -685,4 +790,14 @@ public class PrimaryController {
 		LogHundler.writeLogingMessage(logEntity);
 		textFlow.getChildren().add(new Text(logEntity.getFullLogMessage() + "\n"));
 	}
+
+	//Превращает пдф в изображение для сохдания превью
+	public Image generatePreview(File file) throws IOException {
+    try (PDDocument document = PDDocument.load(file)) {
+        PDFRenderer renderer = new PDFRenderer(document);
+
+        BufferedImage image = renderer.renderImageWithDPI(0, 72); // низкий DPI для превью
+        return SwingFXUtils.toFXImage(image, null);
+    }
+}
 }

@@ -31,7 +31,26 @@ public class FileHundler {
 
 	    return fileChooser.showOpenDialog(stage);
 	}
-	
+
+	//открывает проводник для выбора pdf файла
+	public static File chosePdfFile(Stage stage) {
+		FileChooser fileChooser = new FileChooser();
+	    fileChooser.setTitle("Выберите изображение");
+
+	    fileChooser.getExtensionFilters().add(
+	        new FileChooser.ExtensionFilter(
+	            "PDF файлы",
+	            "*.pdf"
+	        )
+	    );
+
+	    fileChooser.setInitialDirectory(
+	        new File(System.getProperty("user.home"))
+	    );
+
+	    return fileChooser.showOpenDialog(stage);
+	}
+
 	//Копирует файл в папку image в корне программы и возвращает полный путь
 	public static String copyFileToDataBase(File originalFile) {
 		
@@ -56,9 +75,42 @@ public class FileHundler {
 		return target.toString();		
 	}
 	
+	public static String copyPdfFFileToDataBase(File originalFile) {
+		File path = new File(System.getProperty("user.dir"));
+		File folder = new File(path.getParentFile() + "/pdf");
+		
+			if (!folder.exists()) {
+				folder.mkdir();
+			}
+		
+		Path source = Paths.get(originalFile.getAbsolutePath());
+		Path target = Paths.get(folder + File.separator + originalFile.getName());
+		
+		System.out.println(target);
+		
+		try { 
+			Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return target.toString();
+	}
+
 	public static String getPathToImageFolder() {
 		File path = new File(System.getProperty("user.dir"));
 		File folder = new File(path.getParentFile() + "/images");
+			
+		if (!folder.exists()) {
+			folder.mkdir();
+		}
+		
+		return folder.getAbsolutePath();
+	}
+
+	public static String getPathToPDFFilesFolder() {
+		File path = new File(System.getProperty("user.dir"));
+		File folder = new File(path.getParentFile() + "/pdf");
 			
 		if (!folder.exists()) {
 			folder.mkdir();
@@ -70,8 +122,15 @@ public class FileHundler {
 	public static Path getLogFile() {
 		
 		File path = new File(System.getProperty("user.dir"));
-		File logFile = new File(path.getParentFile() + File.separator + "log.txt");
 		
+		File folder = new File(path.getParentFile() + "/log");
+			
+		if (!folder.exists()) {
+			folder.mkdir();
+		}
+		
+		File logFile = new File(folder + File.separator + "log.txt");		
+
 		if (!logFile.exists()) {
 			try {
 				logFile.createNewFile();

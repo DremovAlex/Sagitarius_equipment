@@ -30,6 +30,7 @@ public class Frame implements FilterValue{
 	private final ObjectProperty<LocalDate> dateOfSendToArchive = new SimpleObjectProperty<>();
 	
 	private List<String> imageFrameList;
+	private String pathToPdf;
 	
 	public Frame(Long id, String name, Manager manager, Company company, String numberOfLayout, TypeOfFrame typeOfFrame, StatusOfFrame statusOfFrame) {
 		this.id = id;
@@ -199,5 +200,13 @@ public class Frame implements FilterValue{
 	
 	public void deleteImageFromFrame(int index) {
 		imageFrameList.remove(index);
+	}
+
+	public void setPathToPdf(String pathToPdf) {
+		this.pathToPdf = pathToPdf;
+	}
+
+	public String getPathToPdf() {
+		return pathToPdf;
 	}
 }
