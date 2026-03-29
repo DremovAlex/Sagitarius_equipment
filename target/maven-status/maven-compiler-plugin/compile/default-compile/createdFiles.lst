@@ -12,6 +12,7 @@ oriseus\Sagitarius_equipment\controllers\EditFrameController.class
 oriseus\Sagitarius_equipment\utilities\Converters.class
 oriseus\Sagitarius_equipment\controllers\ChildSettingPageController$1.class
 oriseus\Sagitarius_equipment\utilities\CompanyMapperHandler.class
+oriseus\Sagitarius_equipment\utilities\ThemeHundler.class
 oriseus\Sagitarius_equipment\controllers\ChangePasswordController.class
 oriseus\Sagitarius_equipment\model\TypeOfFrame.class
 oriseus\Sagitarius_equipment\controllers\AddNewFrameController.class
@@ -21,6 +22,8 @@ oriseus\Sagitarius_equipment\dto\StatusOfFrameDTO.class
 oriseus\Sagitarius_equipment\controllers\ChildSettingPageController.class
 oriseus\Sagitarius_equipment\utilities\WindowManager.class
 oriseus\Sagitarius_equipment\model\DataBase.class
+oriseus\Sagitarius_equipment\ports\LogLevel.class
+oriseus\Sagitarius_equipment\model\LogEntity.class
 oriseus\Sagitarius_equipment\dto\TypeOfFrameDTO.class
 oriseus\Sagitarius_equipment\utilities\IdGenerator.class
 module-info.class
@@ -32,7 +35,9 @@ oriseus\Sagitarius_equipment\model\StatusOfFrame.class
 oriseus\Sagitarius_equipment\utilities\FrameMapperHandler.class
 oriseus\Sagitarius_equipment\controllers\EnterPasswordController.class
 oriseus\Sagitarius_equipment\controllers\EditManagerController.class
+oriseus\Sagitarius_equipment\utilities\FileHundler.class
 oriseus\Sagitarius_equipment\controllers\SettingsController.class
+oriseus\Sagitarius_equipment\utilities\LogHundler.class
 oriseus\Sagitarius_equipment\dto\CompanyDTO.class
 oriseus\Sagitarius_equipment\ports\SettingsPage.class
 oriseus\Sagitarius_equipment\model\User.class

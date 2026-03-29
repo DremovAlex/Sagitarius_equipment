@@ -75,6 +75,7 @@ public class FileHundler {
 		return target.toString();		
 	}
 	
+	//копирует пдф файл в папку
 	public static String copyPdfFFileToDataBase(File originalFile) {
 		File path = new File(System.getProperty("user.dir"));
 		File folder = new File(path.getParentFile() + "/pdf");
@@ -121,8 +122,7 @@ public class FileHundler {
 	
 	public static Path getLogFile() {
 		
-		File path = new File(System.getProperty("user.dir"));
-		
+		File path = new File(System.getProperty("user.dir"));		
 		File folder = new File(path.getParentFile() + "/log");
 			
 		if (!folder.exists()) {
@@ -141,5 +141,10 @@ public class FileHundler {
 		}
 		
 		return logFile.toPath();
+	}
+
+	//Возвращает путь к корневой папке приложения
+	public static File getPathToParentFolder() {
+		return new File(System.getProperty("user.dir"));
 	}
 }

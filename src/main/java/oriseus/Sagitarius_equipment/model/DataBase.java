@@ -20,6 +20,7 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import oriseus.Sagitarius_equipment.dto.DataBaseDTO;
 import oriseus.Sagitarius_equipment.ports.FilterValue;
+import oriseus.Sagitarius_equipment.utilities.ConfigHundler;
 import oriseus.Sagitarius_equipment.utilities.DataBaseMapperHandler;
 import oriseus.Sagitarius_equipment.utilities.IdGenerator;
 
@@ -339,18 +340,21 @@ public class DataBase {
 	}
 	
 	private Path getPathToDB() {
-		Path appDir = Paths.get(System.getProperty("user.home"), ".sagitarius");
+		// Path appDir = Paths.get(System.getProperty("user.home"), ".sagitarius");
 
-		if (!Files.exists(appDir)) {
-		    try {
-				Files.createDirectories(appDir);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+		// if (!Files.exists(appDir)) {
+		//     try {
+		// 		Files.createDirectories(appDir);
+		// 	} catch (IOException e) {
+		// 		// TODO Auto-generated catch block
+		// 		e.printStackTrace();
+		// 	}
+		// }
 
-		return appDir.resolve("database.bin");
+		// return appDir.resolve("database.bin");
+
+		Path pathToDataBase = Path.of(ConfigHundler.get("database.path", ""));
+		return pathToDataBase;
 	}
 	
 	//Возвращает long id переданного класса

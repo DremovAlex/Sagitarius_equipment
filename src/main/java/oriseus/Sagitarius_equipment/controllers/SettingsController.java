@@ -29,7 +29,8 @@ public class SettingsController {
 		menuList.getItems().addAll(
 		        SettingsPage.STATUSOFFRAME,
 		        SettingsPage.TYPEOFFRAME,
-		        SettingsPage.USERPASSWORD);
+		        SettingsPage.USERPASSWORD,
+				SettingsPage.DATABASETTINGS);
 		
 		menuList.setCellFactory(lv -> new ListCell<>() {
 		    @Override
@@ -64,6 +65,7 @@ public class SettingsController {
 	        case STATUSOFFRAME	->	openStatusOfFrameSettingsPage();
 	        case TYPEOFFRAME	->	openTypeOfFrameSettingsPage();
 	        case USERPASSWORD	->	openChangeUserPasswordPage();
+			case DATABASETTINGS	-> openDataBaseSettingsPage();
 	    };
 
 	    primaryBorderPane.setCenter(content);
@@ -82,7 +84,11 @@ public class SettingsController {
 	private Node openChangeUserPasswordPage() {
 		return WindowManager.loadView("/oriseus/Sagitarius_equipment/changePasswordSettingsChildrenPage.fxml", 
 				(ChangePasswordController c) -> c.setData(SettingsPage.USERPASSWORD)); 
-				
-		
+						
+	}
+
+	private Node openDataBaseSettingsPage() {
+		return WindowManager.loadView("/oriseus/Sagitarius_equipment/dataBaseSettingsChildrenPage.fxml", 
+				(DataBaseSettingController c) -> c.setData(SettingsPage.DATABASETTINGS));
 	}
 }

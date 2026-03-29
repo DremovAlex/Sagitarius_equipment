@@ -6,11 +6,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="primaryBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="oriseus.Sagitarius_equipment.controllers.SettingsController">
+<BorderPane fx:id="primaryBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="642.0" prefWidth="864.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="oriseus.Sagitarius_equipment.controllers.SettingsController">
    <left>
       <VBox prefHeight="300.0" prefWidth="168.0" BorderPane.alignment="CENTER">
          <children>
-            <ListView fx:id="menuList" />
+            <ListView fx:id="menuList" prefHeight="543.0" prefWidth="168.0" />
          </children>
       </VBox>
    </left>
