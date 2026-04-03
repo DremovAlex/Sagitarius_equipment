@@ -75,8 +75,8 @@ public class AddNewFrameController {
 	
 	@FXML
 	private void okButtonPressed() {
-		if (!frameNameTextField.getText().isBlank() || !numberOfLayoutTextField.getText().isBlank() ||
-				manager == null || company == null || typeOfFrame == null) {
+		if (!frameNameTextField.getText().isBlank() && !numberOfLayoutTextField.getText().isBlank() &&
+				manager != null && company != null && typeOfFrame != null) {
 			Frame frame = new Frame(DataBase.getInstance().getIdGenerator().next(Frame.class), frameNameTextField.getText(), manager, company,
 					numberOfLayoutTextField.getText(), typeOfFrame, DataBase.getInstance().getStatusOfFrameList().get(0));
 			DataBase.getInstance().getFrameListByIsActual().add(frame);
