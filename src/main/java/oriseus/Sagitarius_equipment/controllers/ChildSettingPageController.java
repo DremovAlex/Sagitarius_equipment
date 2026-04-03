@@ -2,6 +2,7 @@ package oriseus.Sagitarius_equipment.controllers;
 
 import java.util.List;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
@@ -60,7 +61,15 @@ public class ChildSettingPageController {
 	
 	@FXML
 	private void deleteButtonPressed() {
-		
+		if (filterValue.getName() == null) return;
+
+		//Если выбран тип сетки, удаляет его по имени
+		if (settingsPage.equals(SettingsPage.TYPEOFFRAME)) {
+			// DataBase.getInstance().getTypeOfFrameList().remove(
+			// 	DataBase.getInstance().getTypeOfFrameByName(filterValue.getName()));
+			listView.getItems().remove(listView.getSelectionModel().getSelectedItem());
+		}
+		listView.refresh();
 	}
 	
 	public void setData(SettingsPage page) {
@@ -78,7 +87,8 @@ public class ChildSettingPageController {
 	
 	//Заполняет listview в зависимости от выбора пользователя
 	private void initializeListView(List<? extends FilterValue> filteredValueList) {
-		listView.getItems().addAll(filteredValueList);
+		listView.setItems((ObservableList<FilterValue>) filteredValueList);
+
 	}
 	
 	//вешает конвертер на listview
