@@ -6,8 +6,11 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import oriseus.Sagitarius_equipment.model.DataBase;
+import oriseus.Sagitarius_equipment.model.LogEntity;
 import oriseus.Sagitarius_equipment.model.Manager;
+import oriseus.Sagitarius_equipment.ports.LogLevel;
 import oriseus.Sagitarius_equipment.utilities.Converters;
+import oriseus.Sagitarius_equipment.utilities.LogHundler;
 import oriseus.Sagitarius_equipment.utilities.WindowManager;
 
 public class EditManagerController {
@@ -30,17 +33,27 @@ public class EditManagerController {
 		managerChoiceBox.getItems().addAll(DataBase.getInstance().getManagerList());
 		initManagerChoiceBoxListener();
 		managerChoiceBox.setConverter(Converters.simpleConverter(Manager::getName));
+	
+		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
+			"Открыто окно редактирования менеджера - " + manager.getName()));
 	}
 	
 	@FXML
 	private void okButtonPressed() {
 		if (manager != null && !managerNameTextField.getText().isBlank()) {
 			DataBase.getInstance().getManagerByName(manager.getName()).setName(managerNameTextField.getText());
+			
+			LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
+			"Изменен менеджер - " + manager.getName()));
+			
 			WindowManager.closeWindow((Stage) cancelButton.getScene().getWindow());
 		}
 	}
+	
 	@FXML
 	private void cancelButtonPressed() {
+		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
+			"Отмена изменения менеджера - " + manager.getName()));		
 		WindowManager.closeWindow((Stage) cancelButton.getScene().getWindow());
 	}
 	

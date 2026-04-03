@@ -12,8 +12,11 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.stage.DirectoryChooser;
+import oriseus.Sagitarius_equipment.model.LogEntity;
+import oriseus.Sagitarius_equipment.ports.LogLevel;
 import oriseus.Sagitarius_equipment.ports.SettingsPage;
 import oriseus.Sagitarius_equipment.utilities.ConfigHundler;
+import oriseus.Sagitarius_equipment.utilities.LogHundler;
 import oriseus.Sagitarius_equipment.utilities.WindowManager;
 
 public class DataBaseSettingController {
@@ -55,18 +58,13 @@ public class DataBaseSettingController {
                     }
 
                 } catch (Exception e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    LogHundler.writeLogingMessage(new LogEntity(LogLevel.FATAL, e.getMessage()));
                 }
 
             } else {
-                System.out.println("Папка не выбрана");
+                LogHundler.writeLogingMessage(new LogEntity(LogLevel.ERROR, "База данных не выбрана!"));
             }
         }
-
-
-
-        System.out.println("Change path");
     }
 
     //Устанавливаем путь к базе в label
@@ -86,8 +84,7 @@ public class DataBaseSettingController {
         try {
             Files.move(Path.of(oldDB.getAbsolutePath()), Path.of(newDB.getAbsolutePath()), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LogHundler.writeLogingMessage(new LogEntity(LogLevel.FATAL, e.getMessage()));
         }
     }
 

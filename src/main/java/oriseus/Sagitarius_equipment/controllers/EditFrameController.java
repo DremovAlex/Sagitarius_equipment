@@ -1,6 +1,5 @@
 package oriseus.Sagitarius_equipment.controllers;
 
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,10 +12,13 @@ import javafx.stage.Stage;
 import oriseus.Sagitarius_equipment.model.Company;
 import oriseus.Sagitarius_equipment.model.DataBase;
 import oriseus.Sagitarius_equipment.model.Frame;
+import oriseus.Sagitarius_equipment.model.LogEntity;
 import oriseus.Sagitarius_equipment.model.Manager;
 import oriseus.Sagitarius_equipment.model.StatusOfFrame;
 import oriseus.Sagitarius_equipment.model.TypeOfFrame;
+import oriseus.Sagitarius_equipment.ports.LogLevel;
 import oriseus.Sagitarius_equipment.utilities.Converters;
+import oriseus.Sagitarius_equipment.utilities.LogHundler;
 import oriseus.Sagitarius_equipment.utilities.WindowManager;
 
 public class EditFrameController {
@@ -66,6 +68,9 @@ public class EditFrameController {
 		companyChoiceBox.setConverter(Converters.simpleConverter(Company::getName));
 		typeOfFrameChoiceBox.setConverter(Converters.simpleConverter(TypeOfFrame::getName));
 		statusOfFrameChoiceBox.setConverter(Converters.simpleConverter(StatusOfFrame::getName));
+	
+		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
+			"Открыто окно изменения сетки - " + frame.getName()));
 	}
 	
 	@FXML
@@ -103,11 +108,16 @@ public class EditFrameController {
 			DataBase.getInstance().setToActual(frame);
 		}
 		
+		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
+			"Изменена сетка - " + frame.getName()));
+
 		WindowManager.closeWindow((Stage) okButton.getScene().getWindow());
 	}
 	
 	@FXML
 	private void cancelButtonPressed() {
+		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
+			"Отмена изменений сетки - " + frame.getName()));
 		WindowManager.closeWindow((Stage) cancelButton.getScene().getWindow());
 	}
 	

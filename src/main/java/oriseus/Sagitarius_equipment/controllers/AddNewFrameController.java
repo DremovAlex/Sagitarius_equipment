@@ -1,6 +1,5 @@
 package oriseus.Sagitarius_equipment.controllers;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -10,10 +9,12 @@ import javafx.stage.Stage;
 import oriseus.Sagitarius_equipment.model.Company;
 import oriseus.Sagitarius_equipment.model.DataBase;
 import oriseus.Sagitarius_equipment.model.Frame;
+import oriseus.Sagitarius_equipment.model.LogEntity;
 import oriseus.Sagitarius_equipment.model.Manager;
-import oriseus.Sagitarius_equipment.model.StatusOfFrame;
 import oriseus.Sagitarius_equipment.model.TypeOfFrame;
+import oriseus.Sagitarius_equipment.ports.LogLevel;
 import oriseus.Sagitarius_equipment.utilities.Converters;
+import oriseus.Sagitarius_equipment.utilities.LogHundler;
 import oriseus.Sagitarius_equipment.utilities.WindowManager;
 
 public class AddNewFrameController {
@@ -71,6 +72,9 @@ public class AddNewFrameController {
 		typeOfFrameChoiceBox.getItems().addAll(DataBase.getInstance().getTypeOfFrameList());
 		typeOfFrameChoiceBox.valueProperty().addListener((obs, oldTypeOfFrame, newTypeOfFrame) -> {typeOfFrame = newTypeOfFrame;});	
 		typeOfFrameChoiceBox.setConverter(Converters.simpleConverter(TypeOfFrame::getName));
+	
+		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO,
+			 "Открыто окно добавления новой сетки"));
 	}
 	
 	@FXML
@@ -81,12 +85,17 @@ public class AddNewFrameController {
 					numberOfLayoutTextField.getText(), typeOfFrame, DataBase.getInstance().getStatusOfFrameList().get(0));
 			DataBase.getInstance().getFrameListByIsActual().add(frame);
 			
+			LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO,
+				"Добавлена новая сетка - " + frame.getName()));
+
 			WindowManager.closeWindow((Stage) okButton.getScene().getWindow());
 		}
 	}
 	
 	@FXML
 	private void cancelButtonPressed() {
+		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
+			"Отмена добавления новой сетки"));
 		WindowManager.closeWindow((Stage) cancelButton.getScene().getWindow());
 	}
 	

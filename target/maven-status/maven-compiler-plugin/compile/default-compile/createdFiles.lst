@@ -6,9 +6,11 @@ oriseus\Sagitarius_equipment\utilities\DataBaseMapperHandler.class
 oriseus\Sagitarius_equipment\controllers\PrimaryController.class
 oriseus\Sagitarius_equipment\utilities\ManagerMapperHandler.class
 oriseus\Sagitarius_equipment\controllers\AddNewManagerController.class
+oriseus\Sagitarius_equipment\controllers\DataBaseSettingController.class
 oriseus\Sagitarius_equipment\dto\DataBaseDTO.class
 oriseus\Sagitarius_equipment\model\Manager.class
 oriseus\Sagitarius_equipment\controllers\EditFrameController.class
+oriseus\Sagitarius_equipment\utilities\ConfigHundler.class
 oriseus\Sagitarius_equipment\utilities\Converters.class
 oriseus\Sagitarius_equipment\controllers\ChildSettingPageController$1.class
 oriseus\Sagitarius_equipment\utilities\CompanyMapperHandler.class

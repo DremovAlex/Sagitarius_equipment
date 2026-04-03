@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.Iterator;
 import java.util.Optional;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -15,26 +14,15 @@ import org.apache.pdfbox.rendering.PDFRenderer;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Labeled;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
@@ -44,18 +32,13 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.stage.FileChooser;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import oriseus.Sagitarius_equipment.model.DataBase;
 import oriseus.Sagitarius_equipment.model.Frame;
@@ -68,7 +51,6 @@ import oriseus.Sagitarius_equipment.ports.LogLevel;
 import oriseus.Sagitarius_equipment.utilities.Converters;
 import oriseus.Sagitarius_equipment.utilities.FileHundler;
 import oriseus.Sagitarius_equipment.utilities.LogHundler;
-import oriseus.Sagitarius_equipment.utilities.ThemeHundler;
 import oriseus.Sagitarius_equipment.utilities.WindowManager;
 import oriseus.Sagitarius_equipment.model.Company;
 
@@ -261,6 +243,9 @@ public class PrimaryController {
 		
 		scrollPane.layout();
 		scrollPane.setVvalue(1.0);
+
+		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
+			"Приложение запущенно"));
 	}
 	
 	//Переключает отображение актуальных сеток и архива
@@ -271,11 +256,17 @@ public class PrimaryController {
 			DataBase.getInstance().setActual(false);
 			frameTableView.setItems((ObservableList<Frame>) DataBase.getInstance().getFrameListByIsActual());
 			dateOfSendToArchive.setVisible(true);
+
+			LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
+			"Нажата кнопка в актульные"));
 		} else {
 			archiveButton.setText("В архив");
 			DataBase.getInstance().setActual(true);
 			frameTableView.setItems((ObservableList<Frame>) DataBase.getInstance().getFrameListByIsActual());
 			dateOfSendToArchive.setVisible(false);
+
+			LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
+			"Нажата кнопка в архив"));
 		}
 	}
 	
@@ -306,6 +297,7 @@ public class PrimaryController {
 	//Забивает стринг налом, потом слеать при иницализации пустую строку и проверять по ней
 	private void deletePdfToFrame(Frame frame) {
 		frame.setPathToPdf(null);
+		logging(LogLevel.INFO, "Удален ПДФ файл");
 	}
 
 	private void addNewImageToFrame(Frame frame) {
@@ -403,6 +395,8 @@ public class PrimaryController {
 		EditFrameController controller = WindowManager.openModalWindowWithData(
 	    		"/oriseus/Sagitarius_equipment/editFrame.fxml", "Редактирование сетки",
 	    		frameTableView.getScene().getWindow(), c -> c.setData(currentManager, currentCompany, currentFrame));
+	
+				logging(LogLevel.INFO, "Редактирование сетки");
 	}
 	
 	@FXML
@@ -419,7 +413,7 @@ public class PrimaryController {
 	    		"Добавление нового менеджера", 
 	    		frameTableView.getScene().getWindow());
 
-				logging(LogLevel.INFO, "Добавлен менеджер");
+		logging(LogLevel.INFO, "Добавлен менеджер");
 	}
 	
 	@FXML
@@ -427,6 +421,8 @@ public class PrimaryController {
 		EditManagerController controller = WindowManager.openModalWindowWithData(
 				"/oriseus/Sagitarius_equipment/editManager.fxml", "Редактирование менеджера",
 				frameTableView.getScene().getWindow(), c -> c.setData(currentManager));
+	
+		logging(LogLevel.INFO, "Редактирование менеджера");	
 	}
 
 	@FXML
@@ -440,7 +436,7 @@ public class PrimaryController {
 	    		"Добавление новой компании", 
 	    		frameTableView.getScene().getWindow());
 
-				logging(LogLevel.INFO, "Добавлена новая компания");
+		logging(LogLevel.INFO, "Добавлена новая компания");
 	}
 	
 	@FXML
@@ -448,6 +444,8 @@ public class PrimaryController {
 		EditCompanyController controller = WindowManager.openModalWindowWithData(
 	    		"/oriseus/Sagitarius_equipment/editCompany.fxml", "Редактирование компании",
 	    		frameTableView.getScene().getWindow(), c -> c.setData(currentManager, currentCompany));
+	
+		logging(LogLevel.INFO, "редактирование компании");
 	}
 	
 	@FXML
@@ -456,7 +454,7 @@ public class PrimaryController {
 	    		"Настройки", 
 	    		frameTableView.getScene().getWindow());
 
-				logging(LogLevel.INFO, "Открыты настройки");
+		logging(LogLevel.INFO, "Открыты настройки");
 	}
 	
 
@@ -671,8 +669,8 @@ public class PrimaryController {
 				image = generatePreview(pdfFile);
 				pdfImageView.setImage(image); 
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+				logging(LogLevel.ERROR, e.getMessage());
 			}
 		} else {
 			Image image = new Image(Paths.get(FileHundler.getPathToImageFolder() + File.separator + "ImageNotFound.png").toUri().toString(), 0, 0, true, true, true);
@@ -712,6 +710,7 @@ public class PrimaryController {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			logging(LogLevel.ERROR, e.getMessage());
 		}
 	}
 	

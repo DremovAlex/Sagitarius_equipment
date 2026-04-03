@@ -5,8 +5,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import oriseus.Sagitarius_equipment.model.DataBase;
+import oriseus.Sagitarius_equipment.model.LogEntity;
 import oriseus.Sagitarius_equipment.model.Manager;
-import oriseus.Sagitarius_equipment.model.StatusOfFrame;
+import oriseus.Sagitarius_equipment.ports.LogLevel;
+import oriseus.Sagitarius_equipment.utilities.LogHundler;
 import oriseus.Sagitarius_equipment.utilities.WindowManager;
 
 public class AddNewManagerController {
@@ -21,7 +23,8 @@ public class AddNewManagerController {
 	
 	@FXML
 	private void initialize() {
-		
+		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
+			"Открыто окно добавления нового менеджера"));
 	}
 	
 	@FXML
@@ -30,12 +33,16 @@ public class AddNewManagerController {
 			Manager manager = new Manager(DataBase.getInstance().getIdGenerator().next(Manager.class), managerNameTextField.getText());
 			DataBase.getInstance().getManagerList().add(manager);
 
+			LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
+				"Добавление нового менеджера"));
 		    WindowManager.closeWindow((Stage) okButton.getScene().getWindow());
 		}
 	}
 	
 	@FXML
 	private void cancelButtonPressed() {
+		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
+				"Отмена добавление нового менеджера"));
 		WindowManager.closeWindow((Stage) cancelButton.getScene().getWindow());
 	}
 }

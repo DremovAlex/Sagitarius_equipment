@@ -8,8 +8,11 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import oriseus.Sagitarius_equipment.model.Company;
 import oriseus.Sagitarius_equipment.model.DataBase;
+import oriseus.Sagitarius_equipment.model.LogEntity;
 import oriseus.Sagitarius_equipment.model.Manager;
+import oriseus.Sagitarius_equipment.ports.LogLevel;
 import oriseus.Sagitarius_equipment.utilities.Converters;
+import oriseus.Sagitarius_equipment.utilities.LogHundler;
 import oriseus.Sagitarius_equipment.utilities.WindowManager;
 
 public class EditCompanyController {
@@ -37,18 +40,28 @@ public class EditCompanyController {
 		managerChoiceBox.setConverter(Converters.simpleConverter(Manager::getName));
 		
 		companyChoiceBox.setConverter(Converters.simpleConverter(Company::getName));
+	
+		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
+			"Открыто окно редактирования компании - " + company.getName()));
 	}
 	
 	@FXML
 	private void okButtonPressed() {
 		if (manager != null && company != null && !companyNameTextField.getText().isBlank()) {
 			DataBase.getInstance().getManagerByName(manager.getName()).getCompanyByName(company.getName()).setName(companyNameTextField.getText());
+			
+			LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
+				"Изменена компания - " + company.getName()));
+			
 			WindowManager.closeWindow((Stage) cancelButton.getScene().getWindow());
 		}
 	}
 	
 	@FXML
 	private void cancelButtonPressed() {
+		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
+			"Отмена изменения компании - " + company.getName()));
+
 		WindowManager.closeWindow((Stage) cancelButton.getScene().getWindow());
 	}
 	

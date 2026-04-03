@@ -6,6 +6,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import oriseus.Sagitarius_equipment.model.DataBase;
+import oriseus.Sagitarius_equipment.model.LogEntity;
+import oriseus.Sagitarius_equipment.ports.LogLevel;
+import oriseus.Sagitarius_equipment.utilities.LogHundler;
 import oriseus.Sagitarius_equipment.utilities.WindowManager;
 
 public class EnterPasswordController {
@@ -24,23 +27,39 @@ public class EnterPasswordController {
 	@FXML
 	private void initialize() {
 		infoLabel.setVisible(false);
+
+		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
+			"Открыто окно ввода пароля"));
 	}
 	
 	@FXML
 	private void okButtonPressed() {
-		if (passwordTextField.getText().isBlank()) return;
+		if (passwordTextField.getText().isBlank()) {
+			LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
+			"Поле ввода пароля пустое"));
+			return;
+		}
 		
 		if (passwordTextField.getText().equals(DataBase.getInstance().getUser().getPassword())) {
 			DataBase.getInstance().getUser().setSuperUser(true);
+			
+			LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
+			"Введен пароль, получены права суперпользователя"));
+
 			WindowManager.closeWindow((Stage) cancelButton.getScene().getWindow());
 		} else {
 			infoLabel.setVisible(true);
 			infoLabel.setText("Неправильно введен пароль");
+
+			LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
+			"Неправильный ввод пароля"));
 		}
 	}
 	
 	@FXML
 	private void cancelButtonPressed() {
+		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
+			"Закрытие окна ввода пароля"));
 		WindowManager.closeWindow((Stage) cancelButton.getScene().getWindow());
 	}
 }

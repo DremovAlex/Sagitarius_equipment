@@ -97,10 +97,10 @@
                            <children>
                               <TableView fx:id="frameTableView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
-                                  <TableColumn fx:id="nameTableColumn" prefWidth="95.0" text="Название" />
+                                    <TableColumn fx:id="frameCreateDateTableColumn" prefWidth="115.0" text="Дата создания" />
                                   <TableColumn fx:id="managerTableColumn" prefWidth="128.0" text="Менеджер" />
                                     <TableColumn fx:id="companyTableColumn" prefWidth="111.0" text="Компания" />
-                                    <TableColumn fx:id="frameCreateDateTableColumn" prefWidth="115.0" text="Дата создания" />
+                                  <TableColumn fx:id="nameTableColumn" prefWidth="95.0" text="Название" />
                                     <TableColumn fx:id="numberOfLayoutTableColumn" prefWidth="136.0" text="Номер оригинал макета" />
                                     <TableColumn fx:id="typeOfFrameTableColumn" prefWidth="75.0" text="Тип сетки" />
                                     <TableColumn fx:id="dateOfLastWorkTableColumn" prefWidth="75.0" text="Дата последнего тиража" />
