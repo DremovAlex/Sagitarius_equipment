@@ -17,7 +17,7 @@ public class ConfigHundler {
         try (FileInputStream fis = new FileInputStream(FILE)) {
             props.load(fis);
         } catch (Exception e) {
-
+            
         }
     }
 

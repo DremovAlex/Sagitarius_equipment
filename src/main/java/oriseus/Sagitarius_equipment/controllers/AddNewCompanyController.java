@@ -13,6 +13,7 @@ import oriseus.Sagitarius_equipment.model.Manager;
 import oriseus.Sagitarius_equipment.ports.LogLevel;
 import oriseus.Sagitarius_equipment.utilities.Converters;
 import oriseus.Sagitarius_equipment.utilities.LogHundler;
+import oriseus.Sagitarius_equipment.utilities.ThemeHundler;
 import oriseus.Sagitarius_equipment.utilities.WindowManager;
 
 public class AddNewCompanyController {
@@ -41,7 +42,7 @@ public class AddNewCompanyController {
 		
 		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
 			"Открыто окно добавления новой компании"));
-//		new ThemeHundler().setCatppucinTheme(mainVBox);
+		new ThemeHundler().setTheme(mainVBox);
 	}
 	
 	@FXML

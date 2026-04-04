@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import oriseus.Sagitarius_equipment.model.DataBase;
 import oriseus.Sagitarius_equipment.model.LogEntity;
@@ -11,12 +12,16 @@ import oriseus.Sagitarius_equipment.model.Manager;
 import oriseus.Sagitarius_equipment.ports.LogLevel;
 import oriseus.Sagitarius_equipment.utilities.Converters;
 import oriseus.Sagitarius_equipment.utilities.LogHundler;
+import oriseus.Sagitarius_equipment.utilities.ThemeHundler;
 import oriseus.Sagitarius_equipment.utilities.WindowManager;
 
 public class EditManagerController {
 	
 	private Manager manager;
 	
+	@FXML
+	private VBox mainVBox;
+
 	@FXML
 	private ChoiceBox<Manager> managerChoiceBox;
 	
@@ -34,8 +39,7 @@ public class EditManagerController {
 		initManagerChoiceBoxListener();
 		managerChoiceBox.setConverter(Converters.simpleConverter(Manager::getName));
 	
-		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
-			"Открыто окно редактирования менеджера - " + manager.getName()));
+		new ThemeHundler().setTheme(mainVBox);
 	}
 	
 	@FXML

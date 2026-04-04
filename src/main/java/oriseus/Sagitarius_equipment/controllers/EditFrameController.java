@@ -8,6 +8,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import oriseus.Sagitarius_equipment.model.Company;
 import oriseus.Sagitarius_equipment.model.DataBase;
@@ -19,6 +20,7 @@ import oriseus.Sagitarius_equipment.model.TypeOfFrame;
 import oriseus.Sagitarius_equipment.ports.LogLevel;
 import oriseus.Sagitarius_equipment.utilities.Converters;
 import oriseus.Sagitarius_equipment.utilities.LogHundler;
+import oriseus.Sagitarius_equipment.utilities.ThemeHundler;
 import oriseus.Sagitarius_equipment.utilities.WindowManager;
 
 public class EditFrameController {
@@ -27,6 +29,9 @@ public class EditFrameController {
 	private Frame frame;
 	private TypeOfFrame typeOfFrame;
 	
+	@FXML
+	private VBox mainVBox;
+
 	@FXML
 	private TextField frameNameTextField;
 	@FXML
@@ -69,8 +74,7 @@ public class EditFrameController {
 		typeOfFrameChoiceBox.setConverter(Converters.simpleConverter(TypeOfFrame::getName));
 		statusOfFrameChoiceBox.setConverter(Converters.simpleConverter(StatusOfFrame::getName));
 	
-		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
-			"Открыто окно изменения сетки - " + frame.getName()));
+		new ThemeHundler().setTheme(mainVBox);
 	}
 	
 	@FXML

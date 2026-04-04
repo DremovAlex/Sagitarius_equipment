@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import oriseus.Sagitarius_equipment.model.Company;
 import oriseus.Sagitarius_equipment.model.DataBase;
@@ -13,6 +14,7 @@ import oriseus.Sagitarius_equipment.model.Manager;
 import oriseus.Sagitarius_equipment.ports.LogLevel;
 import oriseus.Sagitarius_equipment.utilities.Converters;
 import oriseus.Sagitarius_equipment.utilities.LogHundler;
+import oriseus.Sagitarius_equipment.utilities.ThemeHundler;
 import oriseus.Sagitarius_equipment.utilities.WindowManager;
 
 public class EditCompanyController {
@@ -20,6 +22,9 @@ public class EditCompanyController {
 	private Manager manager;
 	private Company company;
 	
+	@FXML
+	private VBox mainVBox;
+
 	@FXML
 	private ChoiceBox<Manager> managerChoiceBox;
 	@FXML
@@ -41,8 +46,7 @@ public class EditCompanyController {
 		
 		companyChoiceBox.setConverter(Converters.simpleConverter(Company::getName));
 	
-		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
-			"Открыто окно редактирования компании - " + company.getName()));
+		new ThemeHundler().setTheme(mainVBox);
 	}
 	
 	@FXML

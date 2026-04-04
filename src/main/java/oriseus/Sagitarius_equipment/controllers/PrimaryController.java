@@ -30,6 +30,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.ContextMenuEvent;
@@ -48,9 +49,11 @@ import oriseus.Sagitarius_equipment.model.StatusOfFrame;
 import oriseus.Sagitarius_equipment.model.TypeOfFrame;
 import oriseus.Sagitarius_equipment.ports.FilterValue;
 import oriseus.Sagitarius_equipment.ports.LogLevel;
+import oriseus.Sagitarius_equipment.utilities.ConfigHundler;
 import oriseus.Sagitarius_equipment.utilities.Converters;
 import oriseus.Sagitarius_equipment.utilities.FileHundler;
 import oriseus.Sagitarius_equipment.utilities.LogHundler;
+import oriseus.Sagitarius_equipment.utilities.ThemeHundler;
 import oriseus.Sagitarius_equipment.utilities.WindowManager;
 import oriseus.Sagitarius_equipment.model.Company;
 
@@ -176,11 +179,9 @@ public class PrimaryController {
 	
 	@FXML
 	private MenuItem editMenuItem;
-	
+
 	@FXML
-	private ScrollPane scrollPane;
-	@FXML
-	private TextFlow textFlow;
+	private TextArea consoleTextArea;
 	
 	@FXML
 	private void initialize() {
@@ -236,13 +237,11 @@ public class PrimaryController {
 		    }
 		});
 		
-//		new ThemeHundler().setCatppucinTheme(mainPane);
-
-		setListenerToPdfImageView();
-		setContextMenuToImageView();
+		new ThemeHundler().setTheme(mainPane);
 		
-		scrollPane.layout();
-		scrollPane.setVvalue(1.0);
+		setListenerToPdfImageView();
+		setContextMenuToImageView();	
+		initializeConsole();
 
 		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
 			"Приложение запущенно"));
@@ -352,7 +351,7 @@ public class PrimaryController {
 				DataBase.getInstance().saveDataBase();
 				logging(LogLevel.INFO, "База данных сохранена");
 			} catch (IOException e) {
-				textFlow.getChildren().add(new Text(e.getMessage()));
+				consoleTextArea.setText(e.getMessage());
 				logging(LogLevel.WARNING, e.getMessage());
 //				e.printStackTrace();
 			}
@@ -455,6 +454,9 @@ public class PrimaryController {
 	    		frameTableView.getScene().getWindow());
 
 		logging(LogLevel.INFO, "Открыты настройки");
+
+		initializeConsole();
+		new ThemeHundler().setTheme(mainPane);
 	}
 	
 
@@ -787,16 +789,31 @@ public class PrimaryController {
 	private void logging(LogLevel logLevel, String text) {	
 		LogEntity logEntity = new LogEntity(logLevel, text);
 		LogHundler.writeLogingMessage(logEntity);
-		textFlow.getChildren().add(new Text(logEntity.getFullLogMessage() + "\n"));
+		consoleTextArea.setText(logEntity.getFullLogMessage() + "\n");
 	}
 
 	//Превращает пдф в изображение для сохдания превью
 	public Image generatePreview(File file) throws IOException {
     try (PDDocument document = PDDocument.load(file)) {
-        PDFRenderer renderer = new PDFRenderer(document);
+        	PDFRenderer renderer = new PDFRenderer(document);
 
-        BufferedImage image = renderer.renderImageWithDPI(0, 72); // низкий DPI для превью
-        return SwingFXUtils.toFXImage(image, null);
-    }
-}
+        	BufferedImage image = renderer.renderImageWithDPI(0, 72); // низкий DPI для превью
+        	return SwingFXUtils.toFXImage(image, null);
+    	}
+	}
+
+	//Инициализирует консоль и проверяет property и отображает или нет консоль
+	private void initializeConsole() {
+		consoleTextArea.setEditable(false);
+		consoleTextArea.setFocusTraversable(false);
+
+		if (ConfigHundler.get("console.visible", "").equals("true")) {
+			consoleTextArea.setVisible(true);
+			consoleTextArea.setManaged(true);
+
+		} else {
+			consoleTextArea.setVisible(false);
+			consoleTextArea.setManaged(false);
+		}
+	}
 }

@@ -11,6 +11,7 @@ import oriseus.Sagitarius_equipment.model.LogEntity;
 import oriseus.Sagitarius_equipment.ports.LogLevel;
 import oriseus.Sagitarius_equipment.ports.SettingsPage;
 import oriseus.Sagitarius_equipment.utilities.LogHundler;
+import oriseus.Sagitarius_equipment.utilities.ThemeHundler;
 import oriseus.Sagitarius_equipment.utilities.WindowManager;
 
 public class SettingsController {
@@ -53,6 +54,8 @@ public class SettingsController {
 
 		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
 			"Открыто окно настроек"));
+
+		new ThemeHundler().setTheme(primaryBorderPane);
 	}
 	
 	@FXML
@@ -86,7 +89,7 @@ public class SettingsController {
 		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
 			"Выбрано дочернее окно настроек внешнего вида"));
 		return WindowManager.loadView("/oriseus/Sagitarius_equipment/appearanceSettings.fxml",
-				(ChildSettingPageController c) -> c.setData(SettingsPage.APPEARANCE));
+				(AppearanceSettingsController c) -> c.setData(SettingsPage.APPEARANCE));
 	}
 
 	private Node openStatusOfFrameSettingsPage() {

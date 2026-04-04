@@ -5,11 +5,10 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="oriseus.Sagitarius_equipment.controllers.EnterPasswordController">
+<VBox fx:id="mainVBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="218.0" prefWidth="419.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="oriseus.Sagitarius_equipment.controllers.EnterPasswordController">
    <children>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Введите пароль" />
+      <Label text="Введите пароль" />
       <Label fx:id="infoLabel" text="Label" />
       <TextField fx:id="passwordTextField" />
       <HBox prefHeight="100.0" prefWidth="200.0">

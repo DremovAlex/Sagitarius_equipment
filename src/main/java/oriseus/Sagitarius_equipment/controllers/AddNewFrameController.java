@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import oriseus.Sagitarius_equipment.model.Company;
 import oriseus.Sagitarius_equipment.model.DataBase;
@@ -15,6 +16,7 @@ import oriseus.Sagitarius_equipment.model.TypeOfFrame;
 import oriseus.Sagitarius_equipment.ports.LogLevel;
 import oriseus.Sagitarius_equipment.utilities.Converters;
 import oriseus.Sagitarius_equipment.utilities.LogHundler;
+import oriseus.Sagitarius_equipment.utilities.ThemeHundler;
 import oriseus.Sagitarius_equipment.utilities.WindowManager;
 
 public class AddNewFrameController {
@@ -22,6 +24,9 @@ public class AddNewFrameController {
 	private Manager manager;
 	private Company company;
 	private TypeOfFrame typeOfFrame;
+
+	@FXML
+	private VBox mainVBox;
 	
 	@FXML
 	private TextField frameNameTextField;
@@ -73,6 +78,8 @@ public class AddNewFrameController {
 		typeOfFrameChoiceBox.valueProperty().addListener((obs, oldTypeOfFrame, newTypeOfFrame) -> {typeOfFrame = newTypeOfFrame;});	
 		typeOfFrameChoiceBox.setConverter(Converters.simpleConverter(TypeOfFrame::getName));
 	
+		new ThemeHundler().setTheme(mainVBox);
+
 		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO,
 			 "Открыто окно добавления новой сетки"));
 	}

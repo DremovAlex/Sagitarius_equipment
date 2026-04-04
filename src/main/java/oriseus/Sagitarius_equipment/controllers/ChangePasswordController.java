@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import oriseus.Sagitarius_equipment.model.DataBase;
 import oriseus.Sagitarius_equipment.model.LogEntity;
 import oriseus.Sagitarius_equipment.ports.LogLevel;
@@ -11,6 +12,9 @@ import oriseus.Sagitarius_equipment.ports.SettingsPage;
 import oriseus.Sagitarius_equipment.utilities.LogHundler;
 
 public class ChangePasswordController {
+
+	@FXML
+	private VBox mainVBox;
 
 	@FXML
 	private TextField newPasswordTextField;

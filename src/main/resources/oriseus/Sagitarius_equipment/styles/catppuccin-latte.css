@@ -1,0 +1,128 @@
+consoleTextArea.root {
+    -fx-base: #eff1f5;
+    -fx-background: #eff1f5;
+    -fx-control-inner-background: #e6e9ef;
+
+    -fx-text-base-color: #4c4f69;
+    -fx-text-fill: #4c4f69;
+
+    -fx-accent: #1e66f5;
+    -fx-focus-color: #1e66f5;
+    -fx-faint-focus-color: transparent;
+
+    -fx-font-family: "Segoe UI";
+}
+
+/* === Labels / Text === */
+.label {
+    -fx-text-fill: #4c4f69;
+}
+
+.text {
+    -fx-fill: #4c4f69;
+}
+
+/* === Buttons === */
+.button {
+    -fx-background-color: #ccd0da;
+    -fx-text-fill: #4c4f69;
+    -fx-background-radius: 6;
+    -fx-padding: 6 14;
+}
+
+.button:hover {
+    -fx-background-color: #bcc0cc;
+}
+
+/* === Text Inputs === */
+.text-field,
+.text-area,
+.combo-box {
+    -fx-background-color: #e6e9ef;
+    -fx-text-fill: #4c4f69;
+
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+}
+
+/* === TextArea console === */
+.text-area {
+    -fx-control-inner-background: #e6e9ef;
+    -fx-highlight-fill: #1e66f5;
+    -fx-highlight-text-fill: #eff1f5;
+}
+
+/* === ToolBar === */
+.tool-bar {
+    -fx-background-color: #eff1f5;
+}
+
+.tool-bar .label {
+    -fx-text-fill: #4c4f69;
+}
+
+/* === TableView === */
+.table-view {
+    -fx-background-color: #e6e9ef;
+    -fx-control-inner-background: #e6e9ef;
+}
+
+.table-row-cell {
+    -fx-background-color: #e6e9ef;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #eff1f5;
+}
+
+/* Selection */
+.table-row-cell:selected {
+    -fx-background-color: #bcc0cc;
+}
+
+.table-row-cell:selected .text {
+    -fx-fill: #4c4f69;
+}
+
+/* Focused selection */
+.table-view:focused .table-row-cell:selected {
+    -fx-background-color: #1e66f5;
+}
+
+.table-view:focused .table-row-cell:selected .text {
+    -fx-fill: #eff1f5;
+}
+
+/* === ScrollBar === */
+.scroll-bar:vertical,
+.scroll-bar:horizontal {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #bcc0cc;
+    -fx-background-radius: 5;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #acb0be;
+}
+
+/* === CheckBox === */
+.check-box {
+    -fx-text-fill: #4c4f69;
+}
+
+.check-box .box {
+    -fx-background-color: #e6e9ef;
+    -fx-border-color: #bcc0cc;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: #1e66f5;
+}
+
+/* === TextFlow fix === */
+.text-flow .text {
+    -fx-fill: #4c4f69;
+}
