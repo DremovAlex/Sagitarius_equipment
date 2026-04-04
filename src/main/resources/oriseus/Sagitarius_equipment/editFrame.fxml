@@ -1,65 +1,137 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
 
 <VBox fx:id="mainVBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="615.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="oriseus.Sagitarius_equipment.controllers.EditFrameController">
    <children>
-      <HBox prefHeight="100.0" prefWidth="200.0">
+      <Label text="Редактирование сетки">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <HBox fx:id="nameHBox" spacing="30.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Название" />
+            <Label text="Название сетки">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
             <TextField fx:id="frameNameTextField" />
          </children>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
       </HBox>
-      <HBox prefHeight="100.0" prefWidth="200.0">
+      <HBox fx:id="chouseManagerHBox" spacing="30.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Выберите менеджера" />
+            <Label text="Выберите менеджера">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
             <ChoiceBox fx:id="managerChoiceBox" prefWidth="150.0" />
          </children>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
       </HBox>
-      <HBox prefHeight="100.0" prefWidth="200.0">
+      <HBox fx:id="chouseCompanyHBox" spacing="30.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Выберите компанию" />
+            <Label text="Выберите компанию">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
             <ChoiceBox fx:id="companyChoiceBox" prefWidth="150.0" />
          </children>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
       </HBox>
-      <HBox prefHeight="100.0" prefWidth="200.0">
+      <HBox fx:id="numberOfLayoutHBox" spacing="30.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="номер оригинал макета" />
+            <Label text="Номер оригинал макета">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
             <TextField fx:id="numberOfLayoutTextField" />
          </children>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
       </HBox>
-      <HBox prefHeight="76.0" prefWidth="600.0">
+      <HBox fx:id="typeOfFrameHBox" spacing="30.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Выберите тип сетки" />
+            <Label text="Выберите тип сетки">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
             <ChoiceBox fx:id="typeOfFrameChoiceBox" prefWidth="150.0" />
          </children>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
       </HBox>
-      <HBox prefHeight="100.0" prefWidth="200.0">
+      <HBox fx:id="statusOfFrameHBox" spacing="30.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Укажите статус" />
+            <Label text="Укажите статус">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
             <ChoiceBox fx:id="statusOfFrameChoiceBox" prefWidth="150.0" />
          </children>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
       </HBox>
-      <VBox prefHeight="200.0" prefWidth="100.0">
+      <VBox fx:id="dateAndCommentVBox">
          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" spacing="30.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Укажите дату последней работы" />
+                  <Label text="Укажите дату последней работы">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
                   <DatePicker fx:id="lastDateOfWorkDatePicker" />
                </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
             </HBox>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Укажите коментарий" />
+            <Label text="Укажите коментарий">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </Label>
             <TextArea fx:id="commentTextArea" prefHeight="200.0" prefWidth="200.0" />
          </children>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
       </VBox>
-      <HBox prefHeight="100.0" prefWidth="200.0">
+      <HBox fx:id="buttonsHBox" spacing="100.0">
          <children>
             <Button fx:id="okButton" mnemonicParsing="false" onAction="#okButtonPressed" text="Принять" />
             <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonPressed" text="Отмена" />

@@ -2,9 +2,11 @@ package oriseus.Sagitarius_equipment.controllers;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import oriseus.Sagitarius_equipment.model.Company;
@@ -27,6 +29,18 @@ public class AddNewFrameController {
 
 	@FXML
 	private VBox mainVBox;
+	@FXML
+	private HBox nameHBox;
+	@FXML
+	private HBox managerHBox;
+	@FXML
+	private HBox companyHBox;
+	@FXML
+	private HBox numberOfLayoutHBox;
+	@FXML
+	private HBox typeOfFrameHBox;
+	@FXML
+	private HBox buttonsHBox;
 	
 	@FXML
 	private TextField frameNameTextField;
@@ -78,6 +92,14 @@ public class AddNewFrameController {
 		typeOfFrameChoiceBox.valueProperty().addListener((obs, oldTypeOfFrame, newTypeOfFrame) -> {typeOfFrame = newTypeOfFrame;});	
 		typeOfFrameChoiceBox.setConverter(Converters.simpleConverter(TypeOfFrame::getName));
 	
+		mainVBox.setAlignment(Pos.CENTER);
+		nameHBox.setAlignment(Pos.CENTER);
+		managerHBox.setAlignment(Pos.CENTER);
+		companyHBox.setAlignment(Pos.CENTER);
+		numberOfLayoutHBox.setAlignment(Pos.CENTER);
+		typeOfFrameHBox.setAlignment(Pos.CENTER);
+		buttonsHBox.setAlignment(Pos.CENTER);
+
 		new ThemeHundler().setTheme(mainVBox);
 
 		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO,

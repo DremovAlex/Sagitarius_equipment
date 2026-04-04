@@ -1,11 +1,13 @@
 package oriseus.Sagitarius_equipment.controllers;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import oriseus.Sagitarius_equipment.model.LogEntity;
 import oriseus.Sagitarius_equipment.ports.LogLevel;
@@ -18,6 +20,8 @@ public class SettingsController {
 	
 	@FXML
 	private BorderPane primaryBorderPane;
+	@FXML
+	private HBox buttonsHBox;
 	
 	@FXML
 	private ListView<SettingsPage> menuList;
@@ -54,7 +58,8 @@ public class SettingsController {
 
 		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
 			"Открыто окно настроек"));
-
+		
+		buttonsHBox.setAlignment(Pos.CENTER);
 		new ThemeHundler().setTheme(primaryBorderPane);
 	}
 	

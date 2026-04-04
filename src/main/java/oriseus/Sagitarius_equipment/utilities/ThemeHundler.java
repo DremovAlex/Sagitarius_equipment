@@ -30,7 +30,7 @@ public class ThemeHundler {
         }
     }
 
-    private String getThemePath(String selectedTheme) {
+    public String getThemePath(String selectedTheme) {
         switch (selectedTheme) {
             case "Default light":
                 return "/oriseus/Sagitarius_equipment/styles/default-light.css";

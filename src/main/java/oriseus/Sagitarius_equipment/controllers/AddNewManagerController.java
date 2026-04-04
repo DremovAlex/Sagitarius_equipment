@@ -1,8 +1,10 @@
 package oriseus.Sagitarius_equipment.controllers;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import oriseus.Sagitarius_equipment.model.DataBase;
@@ -17,6 +19,10 @@ public class AddNewManagerController {
 
 	@FXML
 	private VBox mainVBox;
+	@FXML
+	private HBox nameHBox;
+	@FXML
+	private HBox buttonsHBox;
 
 	@FXML
 	private TextField managerNameTextField;
@@ -28,6 +34,10 @@ public class AddNewManagerController {
 	
 	@FXML
 	private void initialize() {
+		mainVBox.setAlignment(Pos.CENTER);
+		nameHBox.setAlignment(Pos.CENTER);
+		buttonsHBox.setAlignment(Pos.CENTER);
+
 		new ThemeHundler().setTheme(mainVBox);
 		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
 			"Открыто окно добавления нового менеджера"));

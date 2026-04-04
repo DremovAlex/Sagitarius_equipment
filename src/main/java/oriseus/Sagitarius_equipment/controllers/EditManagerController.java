@@ -1,9 +1,11 @@
 package oriseus.Sagitarius_equipment.controllers;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import oriseus.Sagitarius_equipment.model.DataBase;
@@ -21,6 +23,12 @@ public class EditManagerController {
 	
 	@FXML
 	private VBox mainVBox;
+	@FXML
+	private HBox chouseManagerHBox;
+	@FXML
+	private HBox newNameHBox;
+	@FXML
+	private HBox buttonsHBox;
 
 	@FXML
 	private ChoiceBox<Manager> managerChoiceBox;
@@ -39,6 +47,11 @@ public class EditManagerController {
 		initManagerChoiceBoxListener();
 		managerChoiceBox.setConverter(Converters.simpleConverter(Manager::getName));
 	
+		mainVBox.setAlignment(Pos.CENTER);
+		chouseManagerHBox.setAlignment(Pos.CENTER);
+		newNameHBox.setAlignment(Pos.CENTER);
+		buttonsHBox.setAlignment(Pos.CENTER);
+
 		new ThemeHundler().setTheme(mainVBox);
 	}
 	

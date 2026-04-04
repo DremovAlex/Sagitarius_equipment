@@ -1,20 +1,25 @@
 package oriseus.Sagitarius_equipment.controllers;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import oriseus.Sagitarius_equipment.model.DataBase;
 import oriseus.Sagitarius_equipment.model.LogEntity;
 import oriseus.Sagitarius_equipment.ports.LogLevel;
 import oriseus.Sagitarius_equipment.ports.SettingsPage;
 import oriseus.Sagitarius_equipment.utilities.LogHundler;
+import oriseus.Sagitarius_equipment.utilities.ThemeHundler;
 
 public class ChangePasswordController {
 
 	@FXML
 	private VBox mainVBox;
+	@FXML
+	private HBox buttonsHBox;
 
 	@FXML
 	private TextField newPasswordTextField;
@@ -32,6 +37,10 @@ public class ChangePasswordController {
 	@FXML
 	private void initialize() {
 		infoLabel.setVisible(false);
+
+		mainVBox.setAlignment(Pos.CENTER);
+		buttonsHBox.setAlignment(Pos.CENTER);
+		new ThemeHundler().setTheme(mainVBox);
 
 		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
 			"Открыто окно смены пароля"));

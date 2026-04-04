@@ -14,7 +14,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import oriseus.Sagitarius_equipment.App;
-import javafx.scene.Parent;
 
 public class WindowManager {
 
@@ -82,7 +81,36 @@ public class WindowManager {
 		alert.setHeaderText(headerText);
 		alert.setContentText(contettext);
 		
+		String path = new ThemeHundler().getThemePath(ConfigHundler.get("theme", ""));
+		alert.getDialogPane().getStylesheets().add(ThemeHundler.class.getResource(path).toExternalForm());
+		
 		return alert.showAndWait();
 	}
+
+	    public static void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+
+        alert.setTitle("Ошибка");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        String path = new ThemeHundler().getThemePath(ConfigHundler.get("theme", ""));
+		alert.getDialogPane().getStylesheets().add(ThemeHundler.class.getResource(path).toExternalForm());
+
+        alert.showAndWait();
+    }
+
+    public static void showWarning(String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+
+        alert.setTitle("Внимание");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        String path = new ThemeHundler().getThemePath(ConfigHundler.get("theme", ""));
+		alert.getDialogPane().getStylesheets().add(ThemeHundler.class.getResource(path).toExternalForm());
+
+        alert.showAndWait();
+    }
 
 }

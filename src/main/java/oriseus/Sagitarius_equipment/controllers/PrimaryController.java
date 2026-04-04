@@ -372,7 +372,7 @@ public class PrimaryController {
 				logging(LogLevel.INFO, "База данных загружена");
 			} catch (IOException e) {
 				logging(LogLevel.WARNING, e.getMessage());
-//				e.printStackTrace();
+				e.printStackTrace();
 			}
 		} else {
 			logging(LogLevel.INFO, "Отмена загрузки базы данных");
@@ -391,6 +391,12 @@ public class PrimaryController {
 	
 	@FXML
 	private void editFrame() {
+		if (currentFrame == null) {
+			WindowManager.showError("Вы не выбрали сетку для редактирования!");
+			logging(LogLevel.ERROR, "Не выбрана сетка для редактирования!");
+			return;
+		}
+
 		EditFrameController controller = WindowManager.openModalWindowWithData(
 	    		"/oriseus/Sagitarius_equipment/editFrame.fxml", "Редактирование сетки",
 	    		frameTableView.getScene().getWindow(), c -> c.setData(currentManager, currentCompany, currentFrame));
@@ -400,10 +406,18 @@ public class PrimaryController {
 	
 	@FXML
 	private void deleteFrame() {
-		if (currentFrame == null) return;		
-		DataBase.getInstance().getFrameListByIsActual().remove(currentFrame);
+		if (currentFrame == null) {
+			WindowManager.showError("Вы не выбрали сетку для удаления!");
+			logging(LogLevel.ERROR, "Не выбрана сетка для удаления!");
+			return;
+		};		
 		
-		logging(LogLevel.INFO, "Удалена сетка");
+		Optional<ButtonType> result = WindowManager.showConfirmationWindow("Вы уверенны что хотите удалить сетку?", "");
+
+		if (result.isPresent() && result.get() == ButtonType.OK) {
+			DataBase.getInstance().getFrameListByIsActual().remove(currentFrame);
+			logging(LogLevel.INFO, "Удалена сетка");
+		}
 	}
 	
 	@FXML

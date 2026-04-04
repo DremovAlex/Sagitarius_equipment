@@ -1,9 +1,11 @@
 package oriseus.Sagitarius_equipment.controllers;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import oriseus.Sagitarius_equipment.model.Company;
@@ -22,7 +24,11 @@ public class AddNewCompanyController {
 	
 	@FXML
 	private VBox mainVBox;
-	
+	@FXML
+	private HBox nameHBox;
+	@FXML
+	private HBox buttonsHBox;
+
 	@FXML
 	private ChoiceBox<Manager> managerChoiceBox;
 	
@@ -42,6 +48,11 @@ public class AddNewCompanyController {
 		
 		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
 			"Открыто окно добавления новой компании"));
+
+		mainVBox.setAlignment(Pos.CENTER);
+		nameHBox.setAlignment(Pos.CENTER);
+		buttonsHBox.setAlignment(Pos.CENTER);
+
 		new ThemeHundler().setTheme(mainVBox);
 	}
 	

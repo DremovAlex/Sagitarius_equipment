@@ -1,9 +1,11 @@
 package oriseus.Sagitarius_equipment.controllers;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import oriseus.Sagitarius_equipment.model.DataBase;
@@ -17,6 +19,8 @@ public class EnterPasswordController {
 	
 	@FXML
 	private VBox mainVBox;
+	@FXML
+	private HBox buttonsHBox;
 
 	@FXML
 	private Label infoLabel;
@@ -32,6 +36,9 @@ public class EnterPasswordController {
 	@FXML
 	private void initialize() {
 		infoLabel.setVisible(false);
+
+		mainVBox.setAlignment(Pos.CENTER);
+		buttonsHBox.setAlignment(Pos.CENTER);
 
 		new ThemeHundler().setTheme(mainVBox);
 

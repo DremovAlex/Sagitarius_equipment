@@ -15,7 +15,7 @@
       </VBox>
    </left>
    <bottom>
-      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <HBox fx:id="buttonsHBox" prefHeight="100.0" prefWidth="200.0" spacing="100.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="okButton" mnemonicParsing="false" onAction="#okButtonPressed" text="Принять" />
             <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonPressed" text="Отмена" />

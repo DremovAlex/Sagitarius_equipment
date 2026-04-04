@@ -3,11 +3,13 @@ package oriseus.Sagitarius_equipment.controllers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import oriseus.Sagitarius_equipment.model.Company;
@@ -31,6 +33,22 @@ public class EditFrameController {
 	
 	@FXML
 	private VBox mainVBox;
+	@FXML
+	private HBox nameHBox;
+	@FXML
+	private HBox chouseManagerHBox;
+	@FXML
+	private HBox chouseCompanyHBox;
+	@FXML
+	private HBox numberOfLayoutHBox;
+	@FXML
+	private HBox typeOfFrameHBox;
+	@FXML
+	private HBox statusOfFrameHBox;
+	@FXML
+	private VBox dateAndCommentVBox;
+	@FXML
+	private HBox buttonsHBox;
 
 	@FXML
 	private TextField frameNameTextField;
@@ -74,6 +92,16 @@ public class EditFrameController {
 		typeOfFrameChoiceBox.setConverter(Converters.simpleConverter(TypeOfFrame::getName));
 		statusOfFrameChoiceBox.setConverter(Converters.simpleConverter(StatusOfFrame::getName));
 	
+		mainVBox.setAlignment(Pos.CENTER);
+		nameHBox.setAlignment(Pos.CENTER);
+		chouseManagerHBox.setAlignment(Pos.CENTER);
+		chouseCompanyHBox.setAlignment(Pos.CENTER);
+		numberOfLayoutHBox.setAlignment(Pos.CENTER);
+		typeOfFrameHBox.setAlignment(Pos.CENTER);
+		statusOfFrameHBox.setAlignment(Pos.CENTER);
+		dateAndCommentVBox.setAlignment(Pos.CENTER);
+		buttonsHBox.setAlignment(Pos.CENTER);
+
 		new ThemeHundler().setTheme(mainVBox);
 	}
 	
