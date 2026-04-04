@@ -224,6 +224,8 @@ public class PrimaryController {
 		initTableSelectionListener();
 		//Устанавлиываем колонку даты списания невидимой
 		dateOfSendToArchive.setVisible(false);
+		//Устанавливаем ширину колонок из property
+		setWidthToCollumn();
 
 		//проверяем что юзер суперюзер и блокируем управление если это не так
 		if (DataBase.getInstance().getUser().isSuperUser() == false) {
@@ -512,8 +514,32 @@ public class PrimaryController {
                 setDefaultImageToImageView(currentFrame);
             }
         });
+
+		//Смотрит на ширину колонок и записывает в property
+		for (TableColumn<?, ?> column : frameTableView.getColumns()) {
+    		column.widthProperty().addListener((obs, oldVal, newVal) -> {
+				try {
+					ConfigHundler.set(column.getId() + ".width", newVal.toString());
+				} catch (Exception e) {
+					logging(LogLevel.ERROR, e.getMessage());
+					e.printStackTrace();
+				}
+    		});
+		}
+
 	}
 	
+	private void setWidthToCollumn() {
+		for (TableColumn<?, ?> column : frameTableView.getColumns()) {
+    		String key = column.getId() + ".width";
+    		String value = ConfigHundler.get(key, null);
+
+    		if (value != null) {
+				column.setPrefWidth(Double.parseDouble(value));
+			}
+		}
+	}
+
 	//добавляет слушатели к choiceboxes и настраивает фильтрацию
 	private void setDisplayOptionsChoiceBox() {
 		displayOptionChoiceBox.setItems(FXCollections.observableArrayList(viewAll, viewManagers, viewCompanies,
