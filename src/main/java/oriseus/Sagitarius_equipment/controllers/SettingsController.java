@@ -29,6 +29,7 @@ public class SettingsController {
 	@FXML
 	private void initialize() {
 		menuList.getItems().addAll(
+				SettingsPage.APPEARANCE,
 		        SettingsPage.STATUSOFFRAME,
 		        SettingsPage.TYPEOFFRAME,
 		        SettingsPage.USERPASSWORD,
@@ -71,15 +72,23 @@ public class SettingsController {
 	private void showPage(SettingsPage page) {
 
 	    Node content = switch (page) {
+			case APPEARANCE		-> 	openAppearanceSettingPage();
 	        case STATUSOFFRAME	->	openStatusOfFrameSettingsPage();
 	        case TYPEOFFRAME	->	openTypeOfFrameSettingsPage();
 	        case USERPASSWORD	->	openChangeUserPasswordPage();
-			case DATABASETTINGS	-> openDataBaseSettingsPage();
+			case DATABASETTINGS	-> 	openDataBaseSettingsPage();
 	    };
 
 	    primaryBorderPane.setCenter(content);
 	}
 	
+	private Node openAppearanceSettingPage() {
+		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
+			"Выбрано дочернее окно настроек внешнего вида"));
+		return WindowManager.loadView("/oriseus/Sagitarius_equipment/appearanceSettings.fxml",
+				(ChildSettingPageController c) -> c.setData(SettingsPage.APPEARANCE));
+	}
+
 	private Node openStatusOfFrameSettingsPage() {
 		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
 			"Выбрано дочернее окно настроек статуса сеток"));
