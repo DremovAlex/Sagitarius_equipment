@@ -13,7 +13,7 @@ import org.apache.pdfbox.rendering.PDFRenderer;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -78,6 +78,8 @@ public class PrimaryController {
 	private int indexOfImage;
 	
 	private String tag = "";
+
+//	private Stage stage;
 	
 	@FXML
 	private BorderPane mainPane;
@@ -185,6 +187,7 @@ public class PrimaryController {
 	
 	@FXML
 	private void initialize() {
+
 		//автоматически растягивает все контейнеры и элементы вслед за окном
 	    VBox.setVgrow(frameTabPane, Priority.ALWAYS);
 	    frameTabPane.setMaxHeight(Double.MAX_VALUE);
@@ -195,8 +198,8 @@ public class PrimaryController {
 	    AnchorPane.setBottomAnchor(frameTableView, 0.0);
 	    AnchorPane.setLeftAnchor(frameTableView, 0.0);
 	    AnchorPane.setRightAnchor(frameTableView, 0.0);
-		
-	    if (DataBase.getInstance().isActual()) {
+	    
+		if (DataBase.getInstance().isActual()) {
 	    	archiveButton.setText("В архив");
 	    } else {
 	    	archiveButton.setText("В актуальные");
@@ -244,6 +247,7 @@ public class PrimaryController {
 		setListenerToPdfImageView();
 		setContextMenuToImageView();	
 		initializeConsole();
+		initSizeToApp();
 
 		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
 			"Приложение запущенно"));
@@ -528,7 +532,89 @@ public class PrimaryController {
 		}
 
 	}
+
+	//устанавливает размеры приложения
+	private void initSizeToApp() {
+		Platform.runLater(() -> {
+			Stage stage = (Stage) mainPane.getScene().getWindow();
+			restoreSizeOfApp(stage);
+			saveSizeOfApp(stage);
+		});
+	}
+
+	//сохраняет размеры приложения
+	private void saveSizeOfApp(Stage stage) {
+
+		stage.widthProperty().addListener((obs, o, n) -> {
+            if (!stage.isMaximized())
+				try {
+					ConfigHundler.set("window.width", String.valueOf(n.doubleValue()));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        });
+
+        stage.heightProperty().addListener((obs, o, n) -> {
+            if (!stage.isMaximized())
+				try {
+					ConfigHundler.set("window.height", String.valueOf(n.doubleValue()));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        });
+
+        stage.xProperty().addListener((obs, o, n) -> {
+            if (!stage.isMaximized())
+				try {
+					ConfigHundler.set("window.x", String.valueOf(n.doubleValue()));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        });
+
+        stage.yProperty().addListener((obs, o, n) -> {
+            if (!stage.isMaximized())
+				try {
+					ConfigHundler.set("window.y", String.valueOf(n.doubleValue()));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        });
+
+        stage.maximizedProperty().addListener((obs, o, n) -> {
+            try {
+				ConfigHundler.set("window.maximized", String.valueOf(n));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        });
+	}
+
+	//Загружает размеры окна из property
+	private void restoreSizeOfApp(Stage stage) {
+		
+		String w = ConfigHundler.get("window.width", null);
+        String h = ConfigHundler.get("window.height", null);
+        String x = ConfigHundler.get("window.x", null);
+        String y = ConfigHundler.get("window.y", null);
+        String maximized = ConfigHundler.get("window.maximized", "false");
+
+        if (w != null) stage.setWidth(Double.parseDouble(w));
+        if (h != null) stage.setHeight(Double.parseDouble(h));
+        if (x != null) stage.setX(Double.parseDouble(x));
+        if (y != null) stage.setY(Double.parseDouble(y));
+
+		boolean isMaximized = Boolean.parseBoolean(maximized);
+
+    	Platform.runLater(() -> stage.setMaximized(isMaximized));
+	}
 	
+	//Загружает размеры колонок
 	private void setWidthToCollumn() {
 		for (TableColumn<?, ?> column : frameTableView.getColumns()) {
     		String key = column.getId() + ".width";
@@ -856,4 +942,5 @@ public class PrimaryController {
 			consoleTextArea.setManaged(false);
 		}
 	}
+
 }
