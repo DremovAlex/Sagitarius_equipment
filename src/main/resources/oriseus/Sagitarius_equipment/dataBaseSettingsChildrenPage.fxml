@@ -16,5 +16,6 @@
             <Button fx:id="changePathToDataBaseButton" mnemonicParsing="false" onAction="#changePathToDataBase" text="Изменить" />
          </children>
       </HBox>
+      <CheckBox fx:id="saveDataBaseOnCloseAppCheckBox" mnemonicParsing="false" text="Сохранять базу данных при закрытии приложения" />
    </children>
 </VBox>

@@ -2,7 +2,6 @@ package oriseus.Sagitarius_equipment.utilities;
 
 import java.util.Map;
 
-import oriseus.Sagitarius_equipment.dto.CompanyDTO;
 import oriseus.Sagitarius_equipment.dto.FrameDTO;
 import oriseus.Sagitarius_equipment.model.Company;
 import oriseus.Sagitarius_equipment.model.Frame;
@@ -50,7 +49,7 @@ public class FrameMapperHandler {
 		frame.setDateOfSendToArchive(dto.dateOfSendToArchive);
 		frame.setPathToPdf(dto.pathToPdf);
 
-		System.out.println(frame.getImageFrameList().size());
+		
 	}
 
 }

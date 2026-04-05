@@ -29,10 +29,14 @@ public class DataBaseSettingController {
 
     @FXML
     private CheckBox deleteOldDatabaseCheckBox;
+    @FXML
+    private CheckBox saveDataBaseOnCloseAppCheckBox;
 
     @FXML
     private void initialize() {
         pathToDataBaseLabel.setText(setPathToDataBase());
+        setSaveDataBaseOnCloseAppCheckBox();
+        setListenerToSaveDataBaseOnCloseAppCheckBox();
     }
 
     @FXML
@@ -85,6 +89,34 @@ public class DataBaseSettingController {
             Files.move(Path.of(oldDB.getAbsolutePath()), Path.of(newDB.getAbsolutePath()), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             LogHundler.writeLogingMessage(new LogEntity(LogLevel.FATAL, e.getMessage()));
+        }
+    }
+
+    private void setListenerToSaveDataBaseOnCloseAppCheckBox() {
+        saveDataBaseOnCloseAppCheckBox.selectedProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue) {
+                try {
+                    ConfigHundler.set("db.save.on.close", "true");
+                } catch (Exception e) {
+                    LogHundler.writeLogingMessage(new LogEntity(LogLevel.ERROR, e.getMessage()));
+                    e.printStackTrace();
+                }
+            } else {
+                try {
+                    ConfigHundler.set("db.save.on.close", "false");
+                } catch (Exception e) {
+                    LogHundler.writeLogingMessage(new LogEntity(LogLevel.ERROR, e.getMessage()));
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void setSaveDataBaseOnCloseAppCheckBox() {
+        if (ConfigHundler.get("db.save.on.close", null).equals("true")) {
+            saveDataBaseOnCloseAppCheckBox.setSelected(true);
+        } else {
+            saveDataBaseOnCloseAppCheckBox.setSelected(false);
         }
     }
 

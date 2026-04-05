@@ -3,6 +3,7 @@ oriseus\Sagitarius_equipment\ports\FilterValue.class
 oriseus\Sagitarius_equipment\utilities\UserMapperHandler.class
 oriseus\Sagitarius_equipment\utilities\Converters$1.class
 oriseus\Sagitarius_equipment\utilities\DataBaseMapperHandler.class
+oriseus\Sagitarius_equipment\controllers\AppearanceSettingsController.class
 oriseus\Sagitarius_equipment\controllers\PrimaryController.class
 oriseus\Sagitarius_equipment\utilities\ManagerMapperHandler.class
 oriseus\Sagitarius_equipment\controllers\AddNewManagerController.class
@@ -31,6 +32,7 @@ oriseus\Sagitarius_equipment\utilities\IdGenerator.class
 module-info.class
 oriseus\Sagitarius_equipment\model\Company.class
 oriseus\Sagitarius_equipment\controllers\SettingsController$1.class
+oriseus\Sagitarius_equipment\ports\Theme.class
 oriseus\Sagitarius_equipment\dto\ManagerDTO.class
 oriseus\Sagitarius_equipment\dto\FrameDTO.class
 oriseus\Sagitarius_equipment\model\StatusOfFrame.class

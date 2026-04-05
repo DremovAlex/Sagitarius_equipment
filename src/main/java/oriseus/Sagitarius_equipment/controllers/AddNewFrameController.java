@@ -117,6 +117,8 @@ public class AddNewFrameController {
 			LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO,
 				"Добавлена новая сетка - " + frame.getName()));
 
+			System.out.println(frame.getId());
+
 			WindowManager.closeWindow((Stage) okButton.getScene().getWindow());
 		}
 	}

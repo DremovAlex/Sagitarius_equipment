@@ -1,11 +1,9 @@
 package oriseus.Sagitarius_equipment.utilities;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import oriseus.Sagitarius_equipment.dto.ManagerDTO;
 import oriseus.Sagitarius_equipment.model.Company;

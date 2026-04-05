@@ -311,16 +311,10 @@ public class DataBase {
 	    mapper.registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule());
 	    mapper.enable(SerializationFeature.INDENT_OUTPUT);
 	    DataBaseDTO dto = DataBaseMapperHandler.toDto(INSTANCE);
-//	    mapper.writeValue(new File("database.bin") , dto);
-	   System.out.println(getPathToDB().toString());
+	   
 	    mapper.writeValue(new File(getPathToDB().toString()) , dto);
 	}
 	
-//	public void loadDataBase() throws StreamReadException, DatabindException, IOException {
-//		ObjectMapper mapper = new ObjectMapper(new SmileFactory());
-//		DataBaseDTO dto = mapper.readValue(new File("database.bin"), DataBaseDTO.class);
-//		INSTANCE = DataBaseMapperHandler.fromDto(dto);
-//	}
 	
 	public void loadDataBase() throws IOException {
 	    ObjectMapper mapper = new ObjectMapper();

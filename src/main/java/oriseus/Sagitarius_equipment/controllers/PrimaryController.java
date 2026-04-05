@@ -306,9 +306,7 @@ public class PrimaryController {
 	}
 
 	private void addNewImageToFrame(Frame frame) {
-		System.out.println("add new image");
 		File imageFile = FileHundler.chooseImage((Stage) imageView.getScene().getWindow());
-		
 		String pathToImage = FileHundler.copyFileToDataBase(imageFile);
 				
 		frame.addImageToFrame(pathToImage);
@@ -359,7 +357,7 @@ public class PrimaryController {
 			} catch (IOException e) {
 				consoleTextArea.setText(e.getMessage());
 				logging(LogLevel.WARNING, e.getMessage());
-//				e.printStackTrace();
+				e.printStackTrace();
 			}
 		} else {
 			logging(LogLevel.INFO, "Отмена сохранения базы данных");
@@ -539,6 +537,7 @@ public class PrimaryController {
 			Stage stage = (Stage) mainPane.getScene().getWindow();
 			restoreSizeOfApp(stage);
 			saveSizeOfApp(stage);
+			onCloseApp(stage);
 		});
 	}
 
@@ -943,4 +942,35 @@ public class PrimaryController {
 		}
 	}
 
+	//Делает перед закрытием приложения
+	private void onCloseApp(Stage stage) {
+
+		stage.setOnCloseRequest(event -> {
+			String isSaveDBOnClose = "";
+			if (ConfigHundler.get("db.save.on.close", null).equals("true")) {
+				isSaveDBOnClose = "Внимание, база данных будет сохранена в текущем состоянии!";
+			} else {
+				isSaveDBOnClose = "Внимание, база данных не будет сохранена в текущем состоянии! Будут потеряны все изменения!";
+			}
+			Optional<ButtonType> result = WindowManager.showConfirmationWindow("Вы уверенны что хотите закрыть приложение?", isSaveDBOnClose);
+
+			if (result.isPresent() && result.get() == ButtonType.OK) {
+				autoSaveDataBaseOnCloseApp();
+			} else {
+				event.consume();
+			}
+		});
+    }
+
+	//Сохраняет базу автоматически, если установленна эта опция в property 
+    private void autoSaveDataBaseOnCloseApp() {
+        if (ConfigHundler.get("db.save.on.close", null).equals("true")) {
+			try {
+				DataBase.getInstance().saveDataBase();
+			} catch (IOException e) {
+				LogHundler.writeLogingMessage(new LogEntity(LogLevel.FATAL, e.getMessage()));
+				e.printStackTrace();
+			}
+		}
+    }
 }

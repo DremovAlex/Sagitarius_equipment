@@ -58,6 +58,12 @@ public class DataBaseMapperHandler {
 	
 	public static DataBase fromDto(DataBaseDTO dBDto) {
 		
+		long maxFrameID = 0;
+		long maxManagerID = 0;
+		long maxCompanyID = 0;
+		long maxTypeOfFrameID = 0;
+		long maxStatusOfFrameID = 0;
+
 		DataBase db = DataBase.getInstance();
 		
 		db.getFrameList().clear();
@@ -68,12 +74,14 @@ public class DataBaseMapperHandler {
 		
 	    for (ManagerDTO managerDto : dBDto.managerList) {
 	        Manager manager = new Manager(managerDto.id, managerDto.name);
+			if (managerDto.id > maxManagerID) maxManagerID = managerDto.id;
 	        
 	        manager.setCompanyList(FXCollections.observableArrayList());
 
 	        for (Long l : managerDto.companyIds) {
 	        	
 	        	for (CompanyDTO companyDTO : dBDto.companyList) {
+					if (companyDTO.id > maxCompanyID) maxCompanyID = companyDTO.id;
 	        		if (l.equals(companyDTO.id)) {
 	        			Company company = new Company(l, companyDTO.name, manager);
 	        			manager.getCompanyList().add(company);
@@ -88,18 +96,22 @@ public class DataBaseMapperHandler {
 	    
 	    for (TypeOfFrameDTO typeOfFrameDTO : dBDto.typeOfFrameList) {
 	    	db.getTypeOfFrameList().add(new TypeOfFrame(typeOfFrameDTO.id, typeOfFrameDTO.type));
+			if (typeOfFrameDTO.id > maxTypeOfFrameID) maxTypeOfFrameID = typeOfFrameDTO.id;
 	    }
 		
 	    for (StatusOfFrameDTO statusOfFrameDTO : dBDto.statusOfFrameList) {
 	    	db.getStatusOfFrameList().add(new StatusOfFrame(statusOfFrameDTO.id, statusOfFrameDTO.status));
+			if (statusOfFrameDTO.id > maxStatusOfFrameID) maxStatusOfFrameID = statusOfFrameDTO.id;
 	    }
 	    
 	    for (FrameDTO frameDTO : dBDto.frameList) {
 	    	db.getFrameList().add(new Frame(frameDTO.id, frameDTO.name));
+			if (frameDTO.id > maxFrameID) maxFrameID = frameDTO.id;
 	    }
 	    
 	    for (FrameDTO frameDTO : dBDto.archiveFrameList) {
 	    	db.getArchiveFrameList().add(new Frame(frameDTO.id, frameDTO.name));
+			if (frameDTO.id > maxFrameID) maxFrameID = frameDTO.id;
 	    }
 	    
 /*	    
@@ -237,7 +249,13 @@ public class DataBaseMapperHandler {
 		    archiveFrame.setImageFrameList(f.imageFrameList);
 			archiveFrame.setPathToPdf(f.pathToPdf);
 		}
-
+		
+		DataBase.getInstance().getIdGenerator().init(Manager.class, maxManagerID);
+		DataBase.getInstance().getIdGenerator().init(Company.class, maxCompanyID);
+		DataBase.getInstance().getIdGenerator().init(TypeOfFrame.class, maxTypeOfFrameID);
+		DataBase.getInstance().getIdGenerator().init(StatusOfFrame.class, maxStatusOfFrameID);
+		DataBase.getInstance().getIdGenerator().init(Frame.class, maxFrameID);
+		
 		return db;
 	}
 }
