@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -26,6 +28,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -229,6 +232,10 @@ public class PrimaryController {
 		dateOfSendToArchive.setVisible(false);
 		//Устанавливаем ширину колонок из property
 		setWidthToCollumn();
+
+		//TEST
+		frameTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		//TEST
 
 		//проверяем что юзер суперюзер и блокируем управление если это не так
 		if (DataBase.getInstance().getUser().isSuperUser() == false) {
@@ -715,7 +722,8 @@ public class PrimaryController {
 		    MenuItem deleteFrame = new MenuItem("Удалить сетку");
 		    MenuItem addNewPdf = new MenuItem("Добавить оригинал макет");
 			MenuItem addNewImage = new MenuItem("Добавить новое изображение");
-		    
+		    MenuItem print = new MenuItem("Отправить на печать");
+
 		    Menu changeStatusMenu = new Menu("Сменить статус сетки");
 
 		    for (StatusOfFrame statusOfFrame : DataBase.getInstance().getStatusOfFrameList()) {
@@ -725,7 +733,7 @@ public class PrimaryController {
 		        changeStatusMenu.getItems().add(item);
 		    }
 		    
-		    menu.getItems().addAll(addNewFrame, editFrame, deleteFrame, changeStatusMenu,addNewPdf, addNewImage);
+		    menu.getItems().addAll(addNewFrame, editFrame, deleteFrame, changeStatusMenu,addNewPdf, addNewImage, print);
 
 		    addNewFrame.setOnAction(e -> addNewFrameByRightClick());
 		    editFrame.setOnAction(e -> editFrameByRightClick(row.getItem()));
@@ -734,6 +742,8 @@ public class PrimaryController {
 			addNewPdf.setOnAction(e -> addNewPdfToFrame(row.getItem()));
 		    addNewImage.setOnAction(e -> addNewImageToFrame(row.getItem()));
 		    
+			print.setOnAction(e -> print(row.getItem()));
+
 		    row.contextMenuProperty().bind(
 		        Bindings.when(row.emptyProperty())
 		                .then((ContextMenu) null)
@@ -975,7 +985,8 @@ public class PrimaryController {
 				LogHundler.writeLogingMessage(new LogEntity(LogLevel.FATAL, e.getMessage()));
 				e.printStackTrace();
 			}
-		} else {
+		} else if (ConfigHundler.get("db.save.on.close", null).equals("true") &&
+			(DataBase.getInstance().getFrameList().isEmpty())) {
 			WindowManager.showWarning("База данных не будет сохранена, так как она не была загружена!");
 		}
     }
@@ -995,5 +1006,14 @@ public class PrimaryController {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	//отправляет на печать выбранные строки
+	private void print(Frame frame) {
+		List<Frame> frameList = new ArrayList<>();
+		frameList.add(frame);
+		PrintController controller = WindowManager.openModalWindowWithData(
+	"/oriseus/Sagitarius_equipment/print.fxml", "Отправка на печать",
+	    		frameTableView.getScene().getWindow(), c -> c.setData(frameList));
 	}
 }
