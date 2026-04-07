@@ -12,6 +12,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 import oriseus.Sagitarius_equipment.model.LogEntity;
 import oriseus.Sagitarius_equipment.ports.LogLevel;
 import oriseus.Sagitarius_equipment.ports.SettingsPage;
@@ -31,12 +32,22 @@ public class DataBaseSettingController {
     private CheckBox deleteOldDatabaseCheckBox;
     @FXML
     private CheckBox saveDataBaseOnCloseAppCheckBox;
+    @FXML
+    private CheckBox autoLoadDataBaseCheckBox;
+
+    @FXML
+    private Button okButton;
+    @FXML
+    private Button cancelButton;
 
     @FXML
     private void initialize() {
         pathToDataBaseLabel.setText(setPathToDataBase());
         setSaveDataBaseOnCloseAppCheckBox();
-        setListenerToSaveDataBaseOnCloseAppCheckBox();
+        setAutoLoadDataBaseCheckBox();
+
+
+        // setListenerToSaveDataBaseOnCloseAppCheckBox();
     }
 
     @FXML
@@ -81,6 +92,34 @@ public class DataBaseSettingController {
         // TODO Auto-generated method stub
     }
 
+    @FXML
+    private void okButtonPressed() {
+        try {
+            if (saveDataBaseOnCloseAppCheckBox.isSelected()) {
+                ConfigHundler.set("db.save.on.close", "true");
+            } else {
+                ConfigHundler.set("db.save.on.close", "false");
+            }
+            if (autoLoadDataBaseCheckBox.isSelected()) {
+                ConfigHundler.set("db.load.on.start", "true");
+            } else {
+                ConfigHundler.set("db.load.on.start", "false");
+            }
+        } catch (Exception e) {
+            LogHundler.writeLogingMessage(new LogEntity(LogLevel.ERROR, e.getMessage()));
+            e.printStackTrace();
+        }
+		
+        LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
+			"Нажата кнопка принять в окне настроек базы данных"));
+    }
+
+    @FXML
+    private void cancelButtonPressed() {
+		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
+			"Нажата кнопка отмена в окне настроек базы данных"));
+    }
+
     private void saveDataBaseInNewPlaceAndDeleteOld(String pathToOldDB, String pathToNewDB) {
         File oldDB = new File(pathToOldDB);
         File newDB = new File(pathToNewDB);
@@ -92,25 +131,25 @@ public class DataBaseSettingController {
         }
     }
 
-    private void setListenerToSaveDataBaseOnCloseAppCheckBox() {
-        saveDataBaseOnCloseAppCheckBox.selectedProperty().addListener((obs, oldValue, newValue) -> {
-            if (newValue) {
-                try {
-                    ConfigHundler.set("db.save.on.close", "true");
-                } catch (Exception e) {
-                    LogHundler.writeLogingMessage(new LogEntity(LogLevel.ERROR, e.getMessage()));
-                    e.printStackTrace();
-                }
-            } else {
-                try {
-                    ConfigHundler.set("db.save.on.close", "false");
-                } catch (Exception e) {
-                    LogHundler.writeLogingMessage(new LogEntity(LogLevel.ERROR, e.getMessage()));
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+    // private void setListenerToSaveDataBaseOnCloseAppCheckBox() {
+    //     saveDataBaseOnCloseAppCheckBox.selectedProperty().addListener((obs, oldValue, newValue) -> {
+    //         if (newValue) {
+    //             try {
+    //                 ConfigHundler.set("db.save.on.close", "true");
+    //             } catch (Exception e) {
+    //                 LogHundler.writeLogingMessage(new LogEntity(LogLevel.ERROR, e.getMessage()));
+    //                 e.printStackTrace();
+    //             }
+    //         } else {
+    //             try {
+    //                 ConfigHundler.set("db.save.on.close", "false");
+    //             } catch (Exception e) {
+    //                 LogHundler.writeLogingMessage(new LogEntity(LogLevel.ERROR, e.getMessage()));
+    //                 e.printStackTrace();
+    //             }
+    //         }
+    //     });
+    // }
 
     private void setSaveDataBaseOnCloseAppCheckBox() {
         if (ConfigHundler.get("db.save.on.close", null).equals("true")) {
@@ -120,4 +159,11 @@ public class DataBaseSettingController {
         }
     }
 
+    private void setAutoLoadDataBaseCheckBox() {
+        if (ConfigHundler.get("db.load.on.start", null).equals("true")) {
+            autoLoadDataBaseCheckBox.setSelected(true);
+        } else {
+            autoLoadDataBaseCheckBox.setSelected(false);
+        }
+    }
 }

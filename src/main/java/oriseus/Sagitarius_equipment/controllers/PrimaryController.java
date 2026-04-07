@@ -251,6 +251,9 @@ public class PrimaryController {
 
 		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
 			"Приложение запущенно"));
+			
+		//Загружает базу автоматически
+		autoLoadDateBase();
 	}
 	
 	//Переключает отображение актуальных сеток и архива
@@ -964,13 +967,33 @@ public class PrimaryController {
 
 	//Сохраняет базу автоматически, если установленна эта опция в property 
     private void autoSaveDataBaseOnCloseApp() {
-        if (ConfigHundler.get("db.save.on.close", null).equals("true")) {
+        if (ConfigHundler.get("db.save.on.close", null).equals("true") &&
+			!(DataBase.getInstance().getFrameList().isEmpty())) {
 			try {
 				DataBase.getInstance().saveDataBase();
 			} catch (IOException e) {
 				LogHundler.writeLogingMessage(new LogEntity(LogLevel.FATAL, e.getMessage()));
 				e.printStackTrace();
 			}
+		} else {
+			WindowManager.showWarning("База данных не будет сохранена, так как она не была загружена!");
 		}
     }
+
+	//Автоматически загружает базу данных при старте приложения
+	private void autoLoadDateBase() {
+		if (ConfigHundler.get("db.load.on.start", null) == null) {
+			WindowManager.showError("Не удалось загрузить базу данных!");
+		}
+
+		if (ConfigHundler.get("db.load.on.start", null).equals("true")) {
+			try {
+				DataBase.getInstance().loadDataBase();
+			} catch (IOException e) {
+				WindowManager.showError("Не удалось загрузить базу данных!");
+				LogHundler.writeLogingMessage(new LogEntity(LogLevel.FATAL, e.getMessage()));
+				e.printStackTrace();
+			}
+		}
+	}
 }

@@ -6,16 +6,23 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="175.0" prefWidth="527.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="oriseus.Sagitarius_equipment.controllers.DataBaseSettingController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="388.0" prefWidth="527.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="oriseus.Sagitarius_equipment.controllers.DataBaseSettingController">
    <children>
       <Label text="Расположение базы данных" />
       <Label fx:id="pathToDataBaseLabel" text="Label" />
       <CheckBox fx:id="deleteOldDatabaseCheckBox" mnemonicParsing="false" text="Скопировать базу данных в выбранную папку и удалить старую базу данных" />
-      <HBox prefHeight="100.0" prefWidth="529.0">
+      <HBox fx:id="autoLoadDataBaseCheckNox" prefHeight="100.0" prefWidth="529.0">
          <children>
             <Button fx:id="changePathToDataBaseButton" mnemonicParsing="false" onAction="#changePathToDataBase" text="Изменить" />
          </children>
       </HBox>
       <CheckBox fx:id="saveDataBaseOnCloseAppCheckBox" mnemonicParsing="false" text="Сохранять базу данных при закрытии приложения" />
+      <CheckBox fx:id="autoLoadDataBaseCheckBox" mnemonicParsing="false" text="Автоматически загружать базу данных при открытии приложения" />
+      <HBox prefHeight="100.0" prefWidth="200.0" spacing="100.0">
+         <children>
+            <Button fx:id="okButton" mnemonicParsing="false" onAction="#okButtonPressed" text="Принять" />
+            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonPressed" text="Отмена" />
+         </children>
+      </HBox>
    </children>
 </VBox>
