@@ -123,11 +123,11 @@
       </VBox>
    </center>
    <right>
-      <VBox prefHeight="476.0" prefWidth="267.0" BorderPane.alignment="CENTER">
+      <VBox spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fx:id="pdfImageView" fitHeight="150.0" fitWidth="263.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="pdfImageView" fitHeight="267.0" fitWidth="267.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="imageView" fitHeight="267.0" fitWidth="267.0" pickOnBounds="true" preserveRatio="true" />
-            <HBox alignment="CENTER">
+            <HBox alignment="CENTER" spacing="30.0">
                <children>
                   <Button fx:id="leftImageButton" mnemonicParsing="false" onAction="#leftImageButtonPressed" prefHeight="25.0" prefWidth="60.0" text="&lt;&lt;" textAlignment="CENTER">
                      <font>

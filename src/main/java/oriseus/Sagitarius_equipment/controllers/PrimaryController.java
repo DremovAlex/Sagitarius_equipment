@@ -303,6 +303,10 @@ public class PrimaryController {
 	}
 	
 	private void addNewPdfToFrame(Frame frame) {
+		if (currentFrame == null && currenListOfFrames != null) {
+			WindowManager.showWarning("Невозможно добавить оригинал макет к нескольким сеткам. Выберите конкретную сетку для добавления оригинал макета. Если вам необходима такая функция, обратитесь к разработчику");
+			return;
+		}
 		File pdfFile = FileHundler.chosePdfFile((Stage) pdfImageView.getScene().getWindow());
 		String pathToPdfFile = FileHundler.copyPdfFFileToDataBase(pdfFile);
 		frame.setPathToPdf(pathToPdfFile);
@@ -314,11 +318,20 @@ public class PrimaryController {
 	//Удаляет макет с сетки
 	//Забивает стринг налом, потом слеать при иницализации пустую строку и проверять по ней
 	private void deletePdfToFrame(Frame frame) {
+		if (currentFrame == null && currenListOfFrames != null) {
+			WindowManager.showWarning("Невозможно удалить оригинал макет у нескольких сеток. Выберите конкретную сетку для удаления оригинал макета. Если вам необходима такая функция, обратитесь к разработчику");
+			return;
+		}
 		frame.setPathToPdf(null);
 		logging(LogLevel.INFO, "Удален ПДФ файл");
 	}
 
+	//добавляет изображение к сетке
 	private void addNewImageToFrame(Frame frame) {
+		if (currentFrame == null && currenListOfFrames != null) {
+			WindowManager.showWarning("Невозможно добавить изображения к нескольким сеткам. Выберите конкретную сетку для добавления изображения. Если вам необходима такая функция, обратитесь к разработчику");
+			return;
+		}
 		File imageFile = FileHundler.chooseImage((Stage) imageView.getScene().getWindow());
 		String pathToImage = FileHundler.copyFileToDataBase(imageFile);
 				
@@ -331,6 +344,11 @@ public class PrimaryController {
 	}
 	
 	private void deleteImageToFrame(Frame frame, int index) {
+		if (currentFrame == null && currenListOfFrames != null) {
+			WindowManager.showWarning("Невозможно удалить изображения у нескольких сеток. Выберите конкретную сетку для удаления изображения. Если вам необходима такая функция, обратитесь к разработчику");
+			return;
+		}
+		
 		frame.deleteImageFromFrame(index);
 		setDefaultImageToImageView(currentFrame);
 
@@ -408,6 +426,10 @@ public class PrimaryController {
 	
 	@FXML
 	private void editFrame() {
+		if (currentFrame == null && currenListOfFrames != null) {
+			WindowManager.showWarning("Невозможно изменить несколько сеток. Выберите конкретную сетку для редактирования");
+			return;
+		}
 		if (currentFrame == null) {
 			WindowManager.showError("Вы не выбрали сетку для редактирования!");
 			logging(LogLevel.ERROR, "Не выбрана сетка для редактирования!");
@@ -423,17 +445,28 @@ public class PrimaryController {
 	
 	@FXML
 	private void deleteFrame() {
-		if (currentFrame == null) {
-			WindowManager.showError("Вы не выбрали сетку для удаления!");
-			logging(LogLevel.ERROR, "Не выбрана сетка для удаления!");
-			return;
-		};		
+		// if (currentFrame == null) {
+		// 	WindowManager.showError("Вы не выбрали сетку для удаления!");
+		// 	logging(LogLevel.ERROR, "Не выбрана сетка для удаления!");
+		// 	return;
+		// };		
 		
-		Optional<ButtonType> result = WindowManager.showConfirmationWindow("Вы уверенны что хотите удалить сетку?", "");
+		if (currentFrame == null && currenListOfFrames != null) {
+			Optional<ButtonType> result = WindowManager.showConfirmationWindow("Вы уверенны что хотите удалить все выбранные сетки?", "");
 
-		if (result.isPresent() && result.get() == ButtonType.OK) {
-			DataBase.getInstance().getFrameListByIsActual().remove(currentFrame);
-			logging(LogLevel.INFO, "Удалена сетка");
+			if (result.isPresent() && result.get() == ButtonType.OK) {
+				for (Frame frame : currenListOfFrames) {
+					DataBase.getInstance().getFrameListByIsActual().remove(frame);	
+					logging(LogLevel.INFO, "Удалена сетка");
+				}
+			}
+		} else if (currentFrame == null) {
+			Optional<ButtonType> result = WindowManager.showConfirmationWindow("Вы уверенны что хотите удалить сетку?", "");
+
+			if (result.isPresent() && result.get() == ButtonType.OK) {
+				DataBase.getInstance().getFrameListByIsActual().remove(currentFrame);
+				logging(LogLevel.INFO, "Удалена сетка");
+			}
 		}
 	}
 	
