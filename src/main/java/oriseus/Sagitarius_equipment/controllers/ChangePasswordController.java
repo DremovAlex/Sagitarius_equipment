@@ -22,9 +22,9 @@ public class ChangePasswordController {
 	private HBox buttonsHBox;
 
 	@FXML
-	private TextField newPasswordTextField;
+	private TextField newPasswordField;
 	@FXML
-	private TextField confirmNewPasswordTextField;
+	private TextField confirmNewPasswordField;
 	
 	@FXML
 	private Label infoLabel;
@@ -48,7 +48,7 @@ public class ChangePasswordController {
 	
 	@FXML
 	private void okButtonPressed() {
-		if (!newPasswordTextField.getText().equals(confirmNewPasswordTextField.getText())) {
+		if (!newPasswordField.getText().equals(confirmNewPasswordField.getText())) {
 			infoLabel.setVisible(true);
 			infoLabel.setText("Пароли не совпадают!");
 			
@@ -57,7 +57,7 @@ public class ChangePasswordController {
 			return;
 		}
 		
-		if (newPasswordTextField.getText().isBlank() || confirmNewPasswordTextField.getText().isBlank()) {
+		if (newPasswordField.getText().isBlank() || confirmNewPasswordField.getText().isBlank()) {
 			infoLabel.setVisible(true);
 			infoLabel.setText("Вы не ввели пароль!");
 			
@@ -66,8 +66,8 @@ public class ChangePasswordController {
 			return;
 		}
 		
-		if (newPasswordTextField.getText().equals(confirmNewPasswordTextField.getText())) {
-			DataBase.getInstance().getUser().setPassword(newPasswordTextField.getText());
+		if (newPasswordField.getText().equals(confirmNewPasswordField.getText())) {
+			DataBase.getInstance().getUser().setPassword(newPasswordField.getText());
 			infoLabel.setVisible(true);
 			infoLabel.setText("Пароль успешно изменен!");
 			

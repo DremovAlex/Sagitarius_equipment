@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -26,7 +27,7 @@ public class EnterPasswordController {
 	private Label infoLabel;
 	
 	@FXML
-	private TextField passwordTextField;
+	private PasswordField passwordField;
 	
 	@FXML
 	private Button okButton;
@@ -48,13 +49,13 @@ public class EnterPasswordController {
 	
 	@FXML
 	private void okButtonPressed() {
-		if (passwordTextField.getText().isBlank()) {
+		if (passwordField.getText().isBlank()) {
 			LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
 			"Поле ввода пароля пустое"));
 			return;
 		}
 		
-		if (passwordTextField.getText().equals(DataBase.getInstance().getUser().getPassword())) {
+		if (passwordField.getText().equals(DataBase.getInstance().getUser().getPassword())) {
 			DataBase.getInstance().getUser().setSuperUser(true);
 			
 			LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
