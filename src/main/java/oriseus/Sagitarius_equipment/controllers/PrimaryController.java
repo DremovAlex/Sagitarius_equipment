@@ -26,6 +26,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
@@ -190,6 +191,9 @@ public class PrimaryController {
 
 	@FXML
 	private TextArea consoleTextArea;
+
+	@FXML
+	private Label statisticLabel;
 	
 	@FXML
 	private void initialize() {
@@ -236,9 +240,7 @@ public class PrimaryController {
 		//Устанавливаем ширину колонок из property
 		setWidthToCollumn();
 
-		//TEST
 		frameTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-		//TEST
 
 		//проверяем что юзер суперюзер и блокируем управление если это не так
 		if (DataBase.getInstance().getUser().isSuperUser() == false) {
@@ -264,6 +266,7 @@ public class PrimaryController {
 			
 		//Загружает базу автоматически
 		autoLoadDateBase();
+		setStaticLabel();
 	}
 	
 	//Переключает отображение актуальных сеток и архива
@@ -273,6 +276,7 @@ public class PrimaryController {
 			archiveButton.setText("В актуальные");
 			DataBase.getInstance().setActual(false);
 			frameTableView.setItems((ObservableList<Frame>) DataBase.getInstance().getFrameListByIsActual());
+			setStaticLabel();
 			dateOfSendToArchive.setVisible(true);
 
 			LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
@@ -281,6 +285,7 @@ public class PrimaryController {
 			archiveButton.setText("В архив");
 			DataBase.getInstance().setActual(true);
 			frameTableView.setItems((ObservableList<Frame>) DataBase.getInstance().getFrameListByIsActual());
+			setStaticLabel();
 			dateOfSendToArchive.setVisible(false);
 
 			LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
@@ -404,6 +409,7 @@ public class PrimaryController {
 		if (result.isPresent() && result.get() == ButtonType.OK) {
 			try {
 				DataBase.getInstance().loadDataBase();
+				setStaticLabel();
 				logging(LogLevel.INFO, "База данных загружена");
 			} catch (IOException e) {
 				logging(LogLevel.WARNING, e.getMessage());
@@ -547,6 +553,9 @@ public class PrimaryController {
 	
 	//Добавляет слушателя на таблицу
 	private void initTableSelectionListener() {
+
+		
+
 		// frameTableView.getSelectionModel()
 		// .selectedItemProperty()
 		// .addListener((obs, oldFrame, newFrame) -> {
@@ -567,9 +576,9 @@ public class PrimaryController {
 
 		selectedFrames.addListener((ListChangeListener<Frame>) change -> {
 			List<Frame> currentSelection = new ArrayList<>(selectedFrames);
-
 			// обработка полученого списка
 			handleSelectionChanged(currentSelection);
+			setStaticLabel();
 		});
 
 		//Смотрит на ширину колонок и записывает в property
@@ -753,7 +762,8 @@ public class PrimaryController {
 				return;
 	        }
 			
-			frameTableView.setItems((ObservableList<Frame>) DataBase.getInstance().getFilteredByChoiceBoxList(newChoise));           
+			frameTableView.setItems((ObservableList<Frame>) DataBase.getInstance().getFilteredByChoiceBoxList(newChoise));  
+			setStaticLabel();         
         });
 	}
 	
@@ -775,8 +785,10 @@ public class PrimaryController {
 
 		    if (newText != null && !newText.isBlank()) {
 		    	frameTableView.setItems((ObservableList<Frame>) DataBase.getInstance().getGetFilteredListByText(tag, newText));
+				setStaticLabel();
 		    } else if (newText.equals("")) {
 		    	frameTableView.setItems((ObservableList<Frame>) DataBase.getInstance().getFrameListByIsActual());
+				setStaticLabel();
 		    }
 		});
 	}
@@ -828,6 +840,7 @@ public class PrimaryController {
 	//Добавляет новую сетку по правому клику
 	private void addNewFrameByRightClick() {
 		addNewFrame();
+		setStaticLabel();
 	}
 	
 	//вызывает окно редактирования сетки по правому клику
@@ -838,6 +851,7 @@ public class PrimaryController {
 	//удаляет сетку по правому клику
 	private void deleteFrameByRightClick(Frame frame) {
 		deleteFrame();
+		setStaticLabel();
 	}
 	
 	//меняет статус сетки по правому клику мыши
@@ -1103,5 +1117,10 @@ public class PrimaryController {
 		"/oriseus/Sagitarius_equipment/print.fxml", "Отправка на печать",
 					frameTableView.getScene().getWindow(), c -> c.setData(frames));
 		}
+	}
+
+	//Отображает колличество сеток на экране
+	private void setStaticLabel() {
+		statisticLabel.setText(new Integer(frameTableView.getItems().size()).toString());
 	}
 }

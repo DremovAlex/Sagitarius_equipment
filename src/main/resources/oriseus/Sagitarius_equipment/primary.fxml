@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
@@ -75,6 +76,22 @@
                         <ChoiceBox fx:id="displayOptionChoiceBox" prefWidth="150.0" />
                         <ChoiceBox fx:id="displaysChoiceBox" prefWidth="150.0" />
                         <Button fx:id="clearDispalysChoiceBoxesButton" mnemonicParsing="false" onAction="#clearOptionsChoiceBoxes" text="Очистить" />
+                        <Label text="Всего сеток:">
+                           <padding>
+                              <Insets left="30.0" right="10.0" />
+                           </padding>
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="statisticLabel">
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
                      </items>
                   </ToolBar>
                   <ToolBar fx:id="searchToolBar">
