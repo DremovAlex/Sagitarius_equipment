@@ -1031,8 +1031,15 @@ public class PrimaryController {
 
 	//Автоматически загружает базу данных при старте приложения
 	private void autoLoadDateBase() {
+
 		if (ConfigHundler.get("db.load.on.start", null) == null) {
 			WindowManager.showError("Не удалось загрузить базу данных!");
+			try {
+				ConfigHundler.set("db.load.on.start", "false");
+			} catch (Exception e) {
+				LogHundler.writeLogingMessage(new LogEntity(LogLevel.ERROR, e.getMessage()));
+				e.printStackTrace();
+			}
 		}
 
 		if (ConfigHundler.get("db.load.on.start", null).equals("true")) {
@@ -1047,9 +1054,21 @@ public class PrimaryController {
 	}
 	
 	//отправляет на печать выбранные строки
-	private void print(List<Frame> frames) {
-		PrintController controller = WindowManager.openModalWindowWithData(
-	"/oriseus/Sagitarius_equipment/print.fxml", "Отправка на печать",
-	    		frameTableView.getScene().getWindow(), c -> c.setData(frames));
+	//если выбрана одна сетка, list = null
+	//создаем новый лист, КОСТЫЛЬ, потом исправить, везде ввести список, брать первый элемент, если выбран одиночный обьект
+	@FXML
+	private void print(List<Frame> frames) { 
+		if (frames == null && currentFrame != null) {
+			List<Frame> list = new ArrayList<>();
+			list.add(currentFrame);
+		
+			PrintController controller = WindowManager.openModalWindowWithData(
+		"/oriseus/Sagitarius_equipment/print.fxml", "Отправка на печать",
+					frameTableView.getScene().getWindow(), c -> c.setData(list)); 
+		} else {
+			PrintController controller = WindowManager.openModalWindowWithData(
+		"/oriseus/Sagitarius_equipment/print.fxml", "Отправка на печать",
+					frameTableView.getScene().getWindow(), c -> c.setData(frames));
+		}
 	}
 }
