@@ -18,6 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
@@ -78,6 +79,8 @@ public class PrimaryController {
 	private TypeOfFrame currentTypeOfFrame;
 	private StatusOfFrame currentStatusOfFrame;
 	
+	private List<Frame> currenListOfFrames;
+
 	private int indexOfImage;
 	
 	private String tag = "";
@@ -511,21 +514,30 @@ public class PrimaryController {
 	
 	//Добавляет слушателя на таблицу
 	private void initTableSelectionListener() {
-		frameTableView.getSelectionModel()
-		.selectedItemProperty()
-		.addListener((obs, oldFrame, newFrame) -> {
+		// frameTableView.getSelectionModel()
+		// .selectedItemProperty()
+		// .addListener((obs, oldFrame, newFrame) -> {
             
-			if (newFrame != null) {
-                currentManager = newFrame.getManager();
-                currentCompany = newFrame.getCompany();
-                currentFrame = newFrame;
-                currentStatusOfFrame = newFrame.getStatusOfFrame();
-                currentTypeOfFrame = newFrame.getTypeOfFrame();
+		// 	if (newFrame != null) {
+        //         currentManager = newFrame.getManager();
+        //         currentCompany = newFrame.getCompany();
+        //         currentFrame = newFrame;
+        //         currentStatusOfFrame = newFrame.getStatusOfFrame();
+        //         currentTypeOfFrame = newFrame.getTypeOfFrame();
                 
-				setPdfFileToPreview(currentFrame);
-                setDefaultImageToImageView(currentFrame);
-            }
-        });
+		// 		setPdfFileToPreview(currentFrame);
+        //         setDefaultImageToImageView(currentFrame);
+        //     }
+        // });
+
+		ObservableList<Frame> selectedFrames = frameTableView.getSelectionModel().getSelectedItems();
+
+		selectedFrames.addListener((ListChangeListener<Frame>) change -> {
+			List<Frame> currentSelection = new ArrayList<>(selectedFrames);
+
+			// обработка полученого списка
+			handleSelectionChanged(currentSelection);
+		});
 
 		//Смотрит на ширину колонок и записывает в property
 		for (TableColumn<?, ?> column : frameTableView.getColumns()) {
@@ -539,6 +551,32 @@ public class PrimaryController {
     		});
 		}
 
+	}
+
+	//обрабатывает список, полученный в слушателе
+	private void handleSelectionChanged(List<Frame> frames) {
+		if (frames.isEmpty()) {
+			System.out.println("Ничего не выбрано");
+			currenListOfFrames = null;
+			currentFrame = null;
+		} else if (frames.size() == 1) {
+			Frame newFrame = frames.getFirst();
+				if (newFrame != null) {
+					currentManager = newFrame.getManager();
+					currentCompany = newFrame.getCompany();
+					currentFrame = newFrame;
+					currentStatusOfFrame = newFrame.getStatusOfFrame();
+					currentTypeOfFrame = newFrame.getTypeOfFrame();
+					
+					setPdfFileToPreview(currentFrame);
+					setDefaultImageToImageView(currentFrame);
+            	}
+			currenListOfFrames = null;
+		} else {
+			System.out.println("Выбрано: " + frames.size());
+			currenListOfFrames = frames;
+			currentFrame = null;
+		}
 	}
 
 	//устанавливает размеры приложения
@@ -742,7 +780,7 @@ public class PrimaryController {
 			addNewPdf.setOnAction(e -> addNewPdfToFrame(row.getItem()));
 		    addNewImage.setOnAction(e -> addNewImageToFrame(row.getItem()));
 		    
-			print.setOnAction(e -> print(row.getItem()));
+			print.setOnAction(e -> print(currenListOfFrames));
 
 		    row.contextMenuProperty().bind(
 		        Bindings.when(row.emptyProperty())
@@ -1009,11 +1047,9 @@ public class PrimaryController {
 	}
 	
 	//отправляет на печать выбранные строки
-	private void print(Frame frame) {
-		List<Frame> frameList = new ArrayList<>();
-		frameList.add(frame);
+	private void print(List<Frame> frames) {
 		PrintController controller = WindowManager.openModalWindowWithData(
 	"/oriseus/Sagitarius_equipment/print.fxml", "Отправка на печать",
-	    		frameTableView.getScene().getWindow(), c -> c.setData(frameList));
+	    		frameTableView.getScene().getWindow(), c -> c.setData(frames));
 	}
 }

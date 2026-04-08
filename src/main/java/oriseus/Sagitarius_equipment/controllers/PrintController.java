@@ -4,9 +4,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.GridPane;
 import oriseus.Sagitarius_equipment.model.Frame;
+import oriseus.Sagitarius_equipment.utilities.PrintService;
 
 public class PrintController {
 
@@ -63,4 +66,18 @@ public class PrintController {
         }
     }
 
+    //отправляет grid на печать
+    private void print() {
+        PrintService.print(gridPane);
+    }
+
+    private void initializeRightMouseClick() {
+		ContextMenu contextMenu = new ContextMenu();
+
+        MenuItem printItem = new MenuItem("Печать");
+        MenuItem cancelItem = new MenuItem("Удалить");
+
+        contextMenu.getItems().addAll(printItem, deleteItem);
+        
+    }
 }
