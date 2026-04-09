@@ -194,6 +194,9 @@ public class PrimaryController {
 
 	@FXML
 	private Label statisticLabel;
+
+	@FXML
+	private TextArea commentTextArea;
 	
 	@FXML
 	private void initialize() {
@@ -208,6 +211,8 @@ public class PrimaryController {
 	    AnchorPane.setBottomAnchor(frameTableView, 0.0);
 	    AnchorPane.setLeftAnchor(frameTableView, 0.0);
 	    AnchorPane.setRightAnchor(frameTableView, 0.0);
+
+		commentTextArea.setWrapText(true);
 	    
 		if (DataBase.getInstance().isActual()) {
 	    	archiveButton.setText("В архив");
@@ -579,6 +584,7 @@ public class PrimaryController {
 			// обработка полученого списка
 			handleSelectionChanged(currentSelection);
 			setStaticLabel();
+			setCommentToScrean(currentFrame);
 		});
 
 		//Смотрит на ширину колонок и записывает в property
@@ -1122,5 +1128,14 @@ public class PrimaryController {
 	//Отображает колличество сеток на экране
 	private void setStaticLabel() {
 		statisticLabel.setText(new Integer(frameTableView.getItems().size()).toString());
+	}
+
+	//Заполняет поле коментария
+	private void setCommentToScrean(Frame frame) {
+		if (frame == null || frame.getComment() == null || frame.getComment().isBlank()) {
+			commentTextArea.setText("Нет коментария");
+		} else {
+			commentTextArea.setText(frame.getComment());
+		}
 	}
 }

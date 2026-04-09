@@ -154,6 +154,7 @@
                   <Button fx:id="rightImageButton" mnemonicParsing="false" onAction="#rightImageButtonPressed" prefHeight="25.0" prefWidth="60.0" text="&gt;&gt;" />
                </children>
             </HBox>
+            <TextArea fx:id="commentTextArea" prefHeight="250.0" prefWidth="267.0" />
          </children>
       </VBox>
    </right>
