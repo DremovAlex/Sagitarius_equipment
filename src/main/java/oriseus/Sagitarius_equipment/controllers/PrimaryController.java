@@ -466,7 +466,7 @@ public class PrimaryController {
 					logging(LogLevel.INFO, "Удалена сетка");
 				}
 			}
-		} else if (currentFrame == null) {
+		} else if (currentFrame != null) {
 			Optional<ButtonType> result = WindowManager.showConfirmationWindow("Вы уверенны что хотите удалить сетку?", "");
 
 			if (result.isPresent() && result.get() == ButtonType.OK) {
