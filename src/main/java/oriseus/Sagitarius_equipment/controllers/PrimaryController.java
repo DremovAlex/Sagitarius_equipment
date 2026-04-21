@@ -116,6 +116,8 @@ public class PrimaryController {
 	@FXML
 	private MenuItem loadDataBaseMenuItem;
 	@FXML
+	private MenuItem importDataBaseMenuItem;
+	@FXML
 	private MenuItem addNewFrameMenuItem;
 	@FXML
 	private MenuItem editFrameMenuItem;
@@ -424,6 +426,19 @@ public class PrimaryController {
 			logging(LogLevel.INFO, "Отмена загрузки базы данных");
 		}
 
+	}
+
+	@FXML
+	private void importDataBase() {
+		Optional<ButtonType> result = WindowManager.showConfirmationWindow("Вы уверенны что хотите импортировать базу данных?", "Она импортируется в текущую открытую базу.");
+
+		if (result.isPresent() && result.get() == ButtonType.OK) {
+			File xlsxFile = FileHundler.choseXlsxFile((Stage) frameTabPane.getScene().getWindow());
+			FileHundler.importDataBaseFromXlsx(xlsxFile); 
+			logging(LogLevel.INFO, "База данных импортированна");
+		} else {
+			logging(LogLevel.INFO, "Отмена импортирования базы данных");
+		}
 	}
 	
 	@FXML

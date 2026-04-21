@@ -9,6 +9,8 @@ module oriseus.Sagitarius_equipment {
 	requires java.desktop;
     requires pdfbox;
     requires javafx.swing;
+    requires org.apache.poi.ooxml;
+    requires org.apache.poi.poi;
 
     opens oriseus.Sagitarius_equipment to javafx.fxml;
     opens oriseus.Sagitarius_equipment.controllers to javafx.fxml;
