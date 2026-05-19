@@ -461,8 +461,15 @@ public class PrimaryController {
 			logging(LogLevel.ERROR, "Не выбрана сетка для редактирования!");
 			return;
 		}
-
+		
+//		System.out.println(currentManager.getName());
+//		System.out.println(currentCompany.getName());
+//		System.out.println(currentFrame.getName());
+//		System.out.println(currentFrame.getNumberOfLayout());
+//		System.out.println(currentFrame.getTypeOfFrame());
+		
 		EditFrameController controller = WindowManager.openModalWindowWithData(
+				
 	    		"/oriseus/Sagitarius_equipment/editFrame.fxml", "Редактирование сетки",
 	    		frameTableView.getScene().getWindow(), c -> c.setData(currentManager, currentCompany, currentFrame));
 	
@@ -1066,6 +1073,7 @@ public class PrimaryController {
 
 		stage.setOnCloseRequest(event -> {
 			String isSaveDBOnClose = "";
+			System.out.println(ConfigHundler.get("db.save.on.close", null));
 			if (ConfigHundler.get("db.save.on.close", null).equals("true")) {
 				isSaveDBOnClose = "Внимание, база данных будет сохранена в текущем состоянии!";
 			} else {

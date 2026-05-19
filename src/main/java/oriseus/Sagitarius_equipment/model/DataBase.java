@@ -140,16 +140,16 @@ public class DataBase {
 		return null;
 	}
 	
-	public Frame getFrameByName(String name) {
+	public Frame getFrameByName(Frame currentFrame) {
 		if (isActual) {
 			for (Frame frame : frameList) {
-				if (frame.getName().equals(name)) {
+				if (frame.getId().equals(currentFrame.getId())) {
 					return frame;
 				}
 			}
 		} else {
 			for (Frame frame : archiveFrameList) {
-				if (frame.getName().equals(name)) {
+				if (frame.getId().equals(currentFrame.getId())) {
 					return frame;
 				}
 			}

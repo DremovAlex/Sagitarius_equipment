@@ -103,6 +103,8 @@ public class EditFrameController {
 		buttonsHBox.setAlignment(Pos.CENTER);
 
 		new ThemeHundler().setTheme(mainVBox);
+		
+
 	}
 	
 	@FXML
@@ -117,19 +119,19 @@ public class EditFrameController {
 		TypeOfFrame typeOfFrame = typeOfFrameChoiceBox.getValue();
 		StatusOfFrame statusOfFrame = statusOfFrameChoiceBox.getValue();
 		
-		DataBase.getInstance().getFrameByName(frame.getName()).setManager(manager);
-		DataBase.getInstance().getFrameByName(frame.getName()).setCompany(company);
-		DataBase.getInstance().getFrameByName(frame.getName()).setName(frameNameTextField.getText());
-		DataBase.getInstance().getFrameByName(frame.getName()).setNumberOfLayout(numberOfLayoutTextField.getText());
-		DataBase.getInstance().getFrameByName(frame.getName()).setTypeOfFrame(typeOfFrame);
-		DataBase.getInstance().getFrameByName(frame.getName()).setStatusOfFrame(statusOfFrame);
+		DataBase.getInstance().getFrameByName(frame).setManager(manager);
+		DataBase.getInstance().getFrameByName(frame).setCompany(company);
+		DataBase.getInstance().getFrameByName(frame).setName(frameNameTextField.getText());
+		DataBase.getInstance().getFrameByName(frame).setNumberOfLayout(numberOfLayoutTextField.getText());
+		DataBase.getInstance().getFrameByName(frame).setTypeOfFrame(typeOfFrame);
+		DataBase.getInstance().getFrameByName(frame).setStatusOfFrame(statusOfFrame);
 		
 		if (lastDateOfWorkDatePicker.getValue() != null) {
-			DataBase.getInstance().getFrameByName(frame.getName()).setDateOfLastWork(lastDateOfWorkDatePicker.getValue());
-			System.out.println(DataBase.getInstance().getFrameByName(frame.getName()).getDateOfLastWork());
+			DataBase.getInstance().getFrameByName(frame).setDateOfLastWork(lastDateOfWorkDatePicker.getValue());
+			System.out.println(DataBase.getInstance().getFrameByName(frame).getDateOfLastWork());
 		}
 		
-		DataBase.getInstance().getFrameByName(frame.getName()).setComment(commentTextArea.getText());
+		DataBase.getInstance().getFrameByName(frame).setComment(commentTextArea.getText());
 		
 
 		if(statusOfFrame.getName().equals(DataBase.getInstance().getStatusByName("Списана").getName())) {
@@ -139,6 +141,12 @@ public class EditFrameController {
 		if(statusOfFrame.getName().equals(DataBase.getInstance().getStatusByName("В работе").getName()) && !DataBase.getInstance().isActual()) {	
 			DataBase.getInstance().setToActual(frame);
 		}
+		
+		System.out.println(manager.getName());
+		System.out.println(company.getName());
+		System.out.println(frame.getName());
+		System.out.println(frame.getNumberOfLayout());
+		System.out.println(frame.getTypeOfFrame());
 		
 		LogHundler.writeLogingMessage(new LogEntity(LogLevel.INFO, 
 			"Изменена сетка - " + frame.getName()));
